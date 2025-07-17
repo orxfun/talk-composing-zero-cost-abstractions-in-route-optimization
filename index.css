@@ -1,0 +1,16 @@
+.subheader {
+    color: rgba(26, 183, 143, 1);
+    font-size: 1.25rem;
+}
+
+.boxes {
+    justify-content: center;
+    display: flex;
+    font-size: 2rem;
+}
+
+.box {
+    color: red;
+    border: 1px solid orangered;
+    padding: 1rem;
+}
