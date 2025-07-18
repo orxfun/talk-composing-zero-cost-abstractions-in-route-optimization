@@ -15,6 +15,7 @@
 
 	<!-- Theme used for syntax highlighted code -->
 	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<script src="plugin/highlight/highlight.js"></script>
 </head>
 
 <body>
@@ -295,13 +296,13 @@
 
 			</section>
 
-			<!-- NAIVE ALGORITHM -->
+			<!-- LOCAL SEARCH -->
 
 			<section>
 
-				<section data-auto-animate>
+				<section data-auto-animate">
 					<h5>Local Search</h5>
-					<div class="circles" data-id="circles">
+					<div class=" circles" data-id="circles">
 						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 0rem;"></div>
 						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 6rem;"></div>
 						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
@@ -620,6 +621,92 @@
 
 			</section>
 
+			<section>
+				<h5>Local Search</h5>
+
+				<pre>
+					<code data-trim data-noescape class="language-rust">
+						struct Tour { /*...*/ } // sequence of locations: 0-2-1-4-3
+
+						struct Move { /*...*/ } // corresponds to a particular neighbor
+
+						impl Move {
+							// takes the tour to the particular neighbor
+							fn apply(&self, tour: &mut Tour) {
+								/*...*/
+							}
+						}
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h5>Local Search - Duration</h5>
+
+				<pre>
+					<code data-trim data-noescape class="language-rust">
+						struct DurationMatrix { /*...*/ }
+
+						impl DurationMatrix {
+							fn tour_cost(&self, tour: &Tour) -> u64 {
+								/*...*/
+							}
+						}
+
+						// all moves taking the `tour` to all of its neighbors
+						fn duration_moves(
+							input: &DurationMatrix,
+							tour: &Tour,
+						) -> impl Iterator&lt;Item = Move&gt; {
+							/*...*/
+						}
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h5>Local Search - Duration</h5>
+
+				<pre>
+					<code data-trim data-noescape class="language-rust">
+						fn improving_move(
+							input: &DurationMatrix,
+							tour: &Tour,
+							tour_cost: u64,
+						) -> Option&lt;Move&gt; {
+							let mut best_cost = tour_cost;
+							let mut best_move = None;
+
+							for mv in feasible_moves(input, tour) {
+								if mv.cost() < best_cost {
+									(best_cost, best_move) = (mv.cost(), Some(mv));
+								}
+							}
+
+							best_move
+						}
+					</code>
+				</pre>
+			</section>
+
+			<section>
+				<h5>Local Search - Duration</h5>
+
+				<pre>
+					<code data-trim data-noescape class="language-rust">
+						fn local_search(input: &DurationMatrix, mut tour: Tour) -> Tour {
+							let mut cost = input.tour_cost(&tour);
+
+							while let Some(mv) = improving_move(input, &tour, cost) {
+								mv.apply(&mut tour);
+								cost = mv.cost();
+							}
+							
+							tour
+						}
+					</code>
+				</pre>
+			</section>
 
 			<!-- 
 			<section data-markdown="slides.md" data-separator="^^\r?\n---\r?\n$"

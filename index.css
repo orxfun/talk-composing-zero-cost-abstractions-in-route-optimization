@@ -1,5 +1,5 @@
 .subheader {
-    color: rgba(26, 183, 143, 1);
+    color: rgba(26, 183, 153, 1);
     font-size: 1.25rem;
 }
 
@@ -43,6 +43,8 @@ img {
 .circles {
     font-size: 1.5rem;
     position: relative;
+    margin-left: calc(50% - 15rem);
+    margin-right: calc(50% - 15rem);
 }
 
 .circle {
@@ -62,7 +64,7 @@ img {
 }
 
 .gray {
-    color: rgb(100, 100, 100);
+    color: rgb(80, 100, 100);
     border-color: rgb(100, 100, 100);
 }
 
@@ -92,6 +94,6 @@ img {
 }
 
 .green {
-    color: #009900;
-    border-color: #009900;
+    color: #66ff33;
+    border-color: #66ff33;
 }
