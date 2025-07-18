@@ -24,13 +24,14 @@ section.has-light-background h6 {
 :root {
   --r-background-color: #000000;
   /* --r-main-font: Source Sans Pro, Helvetica, sans-serif; */
-  --r-main-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
-  --r-main-font-size: 42px;
+  --r-main-font: 'Source Sans Pro', Helvetica, sans-serif;
+  /* --r-main-font-size: 42px; */
+  --r-main-font-size: 2.2rem;
   --r-main-color: #fff;
   --r-block-margin: 20px;
   --r-heading-margin: 0 0 20px 0;
   /* --r-heading-font: Source Sans Pro, Helvetica, sans-serif; */
-  --r-heading-font: Palatino Linotype, Book Antiqua, Palatino, FreeSerif, serif;
+  --r-heading-font: 'Source Sans Pro', Helvetica, sans-serif;
   --r-heading-color: #fff;
   --r-heading-line-height: 1.2;
   --r-heading-letter-spacing: normal;

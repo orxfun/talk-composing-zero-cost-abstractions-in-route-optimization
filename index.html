@@ -5,12 +5,13 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<title>reveal.js</title>
+	<title>composing zero cost abstractions in route optimization</title>
 
 	<link rel="stylesheet" href="dist/reset.css">
 	<link rel="stylesheet" href="dist/reveal.css">
 	<link rel="stylesheet" href="dist/theme/black-contrast.css">
 	<link rel="stylesheet" href="index.css">
+	<script id="MathJax-script" async src="js/tex-mml-chtml.js"></script>
 
 	<!-- Theme used for syntax highlighted code -->
 	<link rel="stylesheet" href="plugin/highlight/monokai.css">
@@ -19,8 +20,13 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
-			<section>
-				<h4>Composing zero cost abstraction in route optimization</h4>
+			<section data-auto-animate>
+				<div data-id="boxes" class="boxes">
+					<div class="box no-border">composing</div>
+					<div class="box no-border">zero cost</div>
+					<div class="box no-border">abstractions</div>
+					<div class="box no-border">in route optimization</div>
+				</div>
 				<hr />
 				<p class="subheader">
 					Uğur Arıkan
@@ -29,10 +35,597 @@
 					RUST FORGE, 27-30 August 2025, Wellington
 				</p>
 			</section>
+
+			<!-- TITLE -->
+
+			<section data-auto-animate>
+				<div data-id="boxes" class="boxes">
+					<div class="box yellow">
+						composing
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+					</div>
+					<div class="box orange">
+						zero cost
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+					</div>
+					<div class="box orangered">
+						abstractions
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+					</div>
+					<div class="box red">
+						in route optimization
+						<p>&nbsp;</p>
+						<p>&nbsp;</p>
+					</div>
+				</div>
+			</section>
+
+			<section data-auto-animate>
+				<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+					<div data-id="boxes" class="boxes">
+						<div class="box yellow">
+							composing
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box orange">
+							zero cost
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box orangered">
+							abstractions
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box red focused-border">
+							in route optimization
+							<p>the domain</p>
+							<p>&nbsp;</p>
+						</div>
+					</div>
+
+
+					<div class="small-font" style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem;">
+						<div>
+							<br />
+							<ul>
+								<li>
+									Traveling Salesperson Problem (TSP)
+									<ul>
+										<li>with time windows</li>
+										<li>capacitated</li>
+										<li>with precedence relations</li>
+										<li>with pickup and delivery</li>
+										<li>...</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div style="display: grid; grid-template-columns: auto auto; gap: 0rem;">
+							<img style="background-color: white;" src="img/tsp-not-solved.png" />
+							<img style="background-color: white;" src="img/tsp-solved.png" />
+						</div>
+					</div>
+				</div>
+
+			</section>
+
+			<section data-auto-animate>
+				<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+					<div data-id="boxes" class="boxes">
+						<div class="box yellow">
+							composing
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box orange focused-border">
+							zero cost
+							<p>performance</p>
+							<p>monomorphization</p>
+						</div>
+						<div class="box orangered">
+							abstractions
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box red">
+							in route optimization
+							<p>the domain</p>
+							<p>&nbsp;</p>
+						</div>
+					</div>
+
+
+					<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+						<div>
+							<p style="text-decoration: underline;">speed as a requirement</p>
+							<ul>
+								<li>thousands of tour requests within a few hours</li>
+								<li>each request to be handled within two minutes</li>
+								<li>
+									each request requires communication among
+									<ul style="list-style-type: circle;">
+										<li>mobile devices</li>
+										<li>databases</li>
+										<li>street routing service</li>
+										<li>etc.</li>
+									</ul>
+								</li>
+								<li style="list-style-type: square; font-style: italic;">
+									5 seconds for the algorithm
+								</li>
+							</ul>
+						</div>
+						<div>
+							<p style="text-decoration: underline;">speed as a quality feature</p>
+							<p>we often cannot prove global optimality</p>
+							<p>⇊</p>
+							<p>the more we search, the better the solution gets</p>
+							<p>⇊</p>
+							<p>the faster we search, the better the solution gets</p>
+						</div>
+					</div>
+				</div>
+
+			</section>
+
+			<section data-auto-animate>
+				<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+					<div data-id="boxes" class="boxes">
+						<div class="box yellow">
+							composing
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box orange">
+							zero cost
+							<p>performance</p>
+							<p>monomorphization</p>
+						</div>
+						<div class="box orangered focused-border">
+							abstractions
+							<p>problem variants</p>
+							<p>extensibility</p>
+						</div>
+						<div class="box red">
+							in route optimization
+							<p>the domain</p>
+							<p>&nbsp;</p>
+						</div>
+					</div>
+
+
+					<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+						<div>
+							<p style="text-decoration: underline;">problem variants</p>
+							<ul>
+								<li>just minimize tour duration</li>
+								<li style="list-style-type: none;">
+									<hr />
+								</li>
+								<li>go to delivery location only after pickup</li>
+								<li>visit location X before Y</li>
+								<li>cannot visit location X in the morning</li>
+								<li>visit locations X, Y and Z together</li>
+								<li>do not exceed vehicle capacity</li>
+								<li>might use a trailer to double capacity</li>
+								<li style="list-style-type: none;">
+									<hr />
+								</li>
+								<li style="font-style: italic;">open: new considerations to come</li>
+							</ul>
+						</div>
+						<div>
+							<p style="text-decoration: underline;">variants as criteria</p>
+							<p>treat each consideration as a criterion</p>
+							<ul>
+								<li>common: solution is a tour</li>
+								<li>different: objectives</li>
+							</ul>
+
+							<p>\(C\): set of all criteria</p>
+
+							<p>\(X \subseteq C\): subset of criteria defining a specific problem variant</p>
+						</div>
+					</div>
+				</div>
+
+			</section>
+
+			<section data-auto-animate>
+				<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+					<div data-id="boxes" class="boxes">
+						<div class="box yellow focused-border">
+							composing
+							<p>maintainability</p>
+							<p>productivity</p>
+						</div>
+						<div class="box orange">
+							zero cost
+							<p>performance</p>
+							<p>monomorphization</p>
+						</div>
+						<div class="box orangered">
+							abstractions
+							<p>problem variants</p>
+							<p>extensibility</p>
+						</div>
+						<div class="box red">
+							in route optimization
+							<p>the domain</p>
+							<p>&nbsp;</p>
+						</div>
+					</div>
+
+
+					<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+						<div>
+							<p style="text-decoration: underline;">composing criteria</p>
+
+							<p>provided that we can solve:</p>
+							<ul>
+								<li>variant with criterion \(a \in C\), and</li>
+								<li>variant with criterion \(b \in C\)</li>
+							</ul>
+
+							<p>can we also solve</p>
+							<ul>
+								<li>the variant with criteria \(X = \{{a, b\}}\)?</li>
+							</ul>
+
+						</div>
+						<div>
+							<p style="text-decoration: underline;">variants as criteria</p>
+							<p>treat each consideration as a criterion</p>
+							<ul>
+								<li>common: solution is a tour</li>
+								<li>different: objectives</li>
+							</ul>
+
+							<p>\(C\): set of all criteria</p>
+
+							<p>\(X \subseteq C\): subset of criteria defining a specific problem variant</p>
+						</div>
+					</div>
+				</div>
+
+			</section>
+
+			<!-- NAIVE ALGORITHM -->
+
+			<section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 3rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 3rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle orangered" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 3rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle yellow" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle yellow" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle orangered" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle yellow" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle yellow" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 3rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle orangered" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 3rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 9rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle yellow" style="position: absolute; top: 3rem; left: 9rem;">19</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle orangered" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle yellow" style="position: absolute; top: 9rem; left: 3rem;">11</div>
+						<div class="circle yellow" style="position: absolute; top: 9rem; left: 9rem;">10</div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 9rem;">19</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 3rem;">11</div>
+						<div class="circle orangered" style="position: absolute; top: 9rem; left: 9rem;">10</div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 6rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 9rem;">19</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle yellow" style="position: absolute; top: 6rem; left: 12rem;">8</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 3rem;">11</div>
+						<div class="circle orangered" style="position: absolute; top: 9rem; left: 9rem;">10</div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle yellow" style="position: absolute; top: 12rem; left: 6rem;">9</div>
+						<div class="circle yellow" style="position: absolute; top: 12rem; left: 12rem;">11</div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 9rem;">19</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle orangered" style="position: absolute; top: 6rem; left: 12rem;">8</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 3rem;">11</div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 9rem;">10</div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 15rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 6rem;">9</div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 12rem;">11</div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 9rem;">19</div>
+						<div class="circle yellow" style="position: absolute; top: 3rem; left: 15rem;">9</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle orangered" style="position: absolute; top: 6rem; left: 12rem;">8</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 3rem;">11</div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 9rem;">10</div>
+						<div class="circle yellow" style="position: absolute; top: 9rem; left: 15rem;">13</div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 6rem;">9</div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 12rem;">11</div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 9rem;">19</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 15rem;">9</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle orangered" style="position: absolute; top: 6rem; left: 12rem;">8</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 3rem;">11</div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 9rem;">10</div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 15rem;">13</div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;"></div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 6rem;">9</div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 12rem;">11</div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;"></div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;"></div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div class="circles" data-id="circles">
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 0rem;">18</div>
+						<div class="circle gray" style="position: absolute; top: 0rem; left: 6rem;">14</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 12rem;">?</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 18rem;">?</div>
+						<div class="circle darkgray" style="position: absolute; top: 0rem; left: 24rem;">?</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 3rem;">15</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 9rem;">19</div>
+						<div class="circle gray" style="position: absolute; top: 3rem; left: 15rem;">9</div>
+						<div class="circle darkgray" style="position: absolute; top: 3rem; left: 21rem;">?</div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 0rem;">16</div>
+						<div class="circle gray" style="position: absolute; top: 6rem; left: 6rem;">12</div>
+						<div class="circle green" style="position: absolute; top: 6rem; left: 12rem;">8</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 18rem;">?</div>
+						<div class="circle darkgray" style="position: absolute; top: 6rem; left: 24rem;">?</div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 3rem;">11</div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 9rem;">10</div>
+						<div class="circle gray" style="position: absolute; top: 9rem; left: 15rem;">13</div>
+						<div class="circle darkgray" style="position: absolute; top: 9rem; left: 21rem;">?</div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 0rem;">?</div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 6rem;">9</div>
+						<div class="circle gray" style="position: absolute; top: 12rem; left: 12rem;">11</div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 18rem;">?</div>
+						<div class="circle darkgray" style="position: absolute; top: 12rem; left: 24rem;">?</div>
+					</div>
+				</section>
+
+			</section>
+
+
+			<!-- 
 			<section data-markdown="slides.md" data-separator="^^\r?\n---\r?\n$"
 				data-separator-vertical="^\r?\n------\r?\n$" data-separator-notes="^Note:" data-charset="iso-8859-15"
 				data-transition="slide">
-			</section>
+			</section> -->
 		</div>
 	</div>
 
