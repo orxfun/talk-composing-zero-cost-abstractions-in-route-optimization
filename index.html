@@ -1,0 +1,3256 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<title>composing zero cost abstractions in route optimization</title>
+
+	<link rel="stylesheet" href="dist/reset.css">
+	<link rel="stylesheet" href="dist/reveal.css">
+	<link rel="stylesheet" href="dist/theme/black-contrast.css">
+	<link rel="stylesheet" href="index.css">
+	<script id="MathJax-script" async src="js/tex-mml-chtml.js"></script>
+
+	<!-- Theme used for syntax highlighted code -->
+	<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	<script src="plugin/highlight/highlight.js"></script>
+</head>
+
+<body>
+	<div class="reveal">
+		<div class="slides">
+			<section data-auto-animate>
+				<div class="boxes">
+					<div class="box no-border">composing</div>
+					<div class="box no-border">zero cost</div>
+					<div class="box no-border">abstractions</div>
+					<div class="box no-border">in route optimization</div>
+				</div>
+				<hr />
+				<p class="subheader">
+					Uğur Arıkan
+				</p>
+				<p class="subheader">
+					RUST FORGE, 27-30 August 2025, Wellington
+				</p>
+			</section>
+
+			<!-- TITLE -->
+
+			<section>
+
+				<section data-auto-animate>
+					<div data-id="boxes" class="boxes">
+						<div class="box yellow">
+							composing
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box orange">
+							zero cost
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box orangered">
+							abstractions
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+						<div class="box red">
+							in route optimization
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+						<div data-id="boxes" class="boxes">
+							<div class="box yellow">
+								composing
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orange">
+								zero cost
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orangered">
+								abstractions
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box red focused-border">
+								in route optimization
+								<p>the domain</p>
+								<p>&nbsp;</p>
+							</div>
+						</div>
+
+
+						<div class="small-font" style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem;">
+							<div>
+								<br />
+								<ul>
+									<li>
+										Traveling Salesperson Problem (TSP)
+										<ul>
+											<li>with time windows</li>
+											<li>capacitated</li>
+											<li>with precedence relations</li>
+											<li>with pickup and delivery</li>
+											<li>...</li>
+										</ul>
+									</li>
+								</ul>
+							</div>
+							<div style="display: grid; grid-template-columns: auto auto; gap: 0rem;">
+								<img style="background-color: white;" src="img/tsp-not-solved.png" />
+								<img style="background-color: white;" src="img/tsp-solved.png" />
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+						<div data-id="boxes" class="boxes">
+							<div class="box yellow">
+								composing
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orange focused-border">
+								zero cost
+								<p>performance</p>
+								<p>monomorphization</p>
+							</div>
+							<div class="box orangered">
+								abstractions
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box red">
+								in route optimization
+								<p>the domain</p>
+								<p>&nbsp;</p>
+							</div>
+						</div>
+
+
+						<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+							<div>
+								<p style="text-decoration: underline;">speed as a requirement</p>
+								<ul>
+									<li>thousands of tour requests within a few hours</li>
+									<li>each request to be handled within two minutes</li>
+									<li>
+										each request requires communication among
+										<ul style="list-style-type: circle;">
+											<li>mobile devices</li>
+											<li>databases</li>
+											<li>street routing service</li>
+											<li>etc.</li>
+										</ul>
+									</li>
+									<li style="list-style-type: square; font-style: italic;">
+										5 seconds for the algorithm
+									</li>
+								</ul>
+							</div>
+							<div>
+								<p style="text-decoration: underline;">speed as a quality feature</p>
+								<p>we often cannot prove global optimality</p>
+								<p>⇊</p>
+								<p>the more we search, the better the solution gets</p>
+								<p>⇊</p>
+								<p>the faster we search, the better the solution gets</p>
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+						<div data-id="boxes" class="boxes">
+							<div class="box yellow">
+								composing
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orange">
+								zero cost
+								<p>performance</p>
+								<p>monomorphization</p>
+							</div>
+							<div class="box orangered focused-border">
+								abstractions
+								<p>problem variants</p>
+								<p>extensibility</p>
+							</div>
+							<div class="box red">
+								in route optimization
+								<p>the domain</p>
+								<p>&nbsp;</p>
+							</div>
+						</div>
+
+
+						<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+							<div>
+								<p style="text-decoration: underline;">problem variants</p>
+								<ul>
+									<li>just minimize tour duration</li>
+									<li style="list-style-type: none;">
+										<hr />
+									</li>
+									<li>go to delivery location only after pickup</li>
+									<li>visit location X before Y</li>
+									<li>cannot visit location X in the morning</li>
+									<li>visit locations X, Y and Z together</li>
+									<li>do not exceed vehicle capacity</li>
+									<li>might use a trailer to double capacity</li>
+									<li style="list-style-type: none;">
+										<hr />
+									</li>
+									<li style="font-style: italic;">open: new considerations to come</li>
+								</ul>
+							</div>
+							<div>
+								<p style="text-decoration: underline;">variants as criteria</p>
+								<p>treat each consideration as a criterion</p>
+								<ul>
+									<li>common: solution is a tour</li>
+									<li>different: objectives</li>
+								</ul>
+
+								<p>\(C\): set of all criteria</p>
+
+								<p>\(X \subseteq C\): subset of criteria defining a specific problem variant</p>
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+						<div data-id="boxes" class="boxes">
+							<div class="box yellow focused-border">
+								composing
+								<p>maintainability</p>
+								<p>productivity</p>
+							</div>
+							<div class="box orange">
+								zero cost
+								<p>performance</p>
+								<p>monomorphization</p>
+							</div>
+							<div class="box orangered">
+								abstractions
+								<p>problem variants</p>
+								<p>extensibility</p>
+							</div>
+							<div class="box red">
+								in route optimization
+								<p>the domain</p>
+								<p>&nbsp;</p>
+							</div>
+						</div>
+
+
+						<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+							<div>
+								<p style="text-decoration: underline;">composing criteria</p>
+
+								<p>provided that we can solve:</p>
+								<ul>
+									<li>variant with criterion \(a \in C\), and</li>
+									<li>variant with criterion \(b \in C\)</li>
+								</ul>
+
+								<p>can we also solve</p>
+								<ul>
+									<li>for criteria \(X = \{{a, b\}}\)?</li>
+								</ul>
+
+							</div>
+							<div>
+								<p style="text-decoration: underline;">variants as criteria</p>
+								<p>treat each consideration as a criterion</p>
+								<ul>
+									<li>common: solution is a tour</li>
+									<li>different: objectives</li>
+								</ul>
+
+								<p>\(C\): set of all criteria</p>
+
+								<p>\(X \subseteq C\): subset of criteria defining a specific problem variant</p>
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+			</section>
+
+			<!-- LOCAL SEARCH -->
+			<section data-auto-animate>
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orange" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orange" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 2rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orange" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 6rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon orange" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orange" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orange" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orange" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon white" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orange" style="position: absolute; top: 4rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon white" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 8rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 10rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orange" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon white" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon white" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon orange" style="position: absolute; top: 6rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon white" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orange" style="position: absolute; top: 10rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 12rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon orange" style="position: absolute; top: 6rem; left: 14rem;">11</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon white" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orange" style="position: absolute; top: 10rem; left: 14rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 12rem; left: 10.5rem;">17</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon white" style="position: absolute; top: 6rem; left: 14rem;">11</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 14rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 12rem; left: 10.5rem;">17</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon orange" style="position: absolute; top: 2rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon orange" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon white" style="position: absolute; top: 6rem; left: 14rem;">11</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon orange" style="position: absolute; top: 8rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 14rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 12rem; left: 10.5rem;">17</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon orange" style="position: absolute; top: 2rem; left: 14rem;">13</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon red" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon white" style="position: absolute; top: 6rem; left: 14rem;">11</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon orange" style="position: absolute; top: 8rem; left: 17.5rem;">22</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 14rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 12rem; left: 10.5rem;">17</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 14rem;">13</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon red" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon white" style="position: absolute; top: 6rem; left: 14rem;">11</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 17.5rem;">22</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 14rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 12rem; left: 10.5rem;">17</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 14rem;">13</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon red" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon green" style="position: absolute; top: 6rem; left: 14rem;">11</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 17.5rem;">22</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 14rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 12rem; left: 10.5rem;">17</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+					<div data-id="hexagons" class="hexagons">
+						<div class="hexagon orangered" style="position: absolute; top: 0rem; left: 3.5rem;">25</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 24.5rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 2rem; left: 14rem;">13</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 28rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon orangered" style="position: absolute; top: 4rem; left: 10.5rem;">16</div>
+						<div class="hexagon red" style="position: absolute; top: 4rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 4rem; left: 24.5rem;"></div>
+
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 0rem;">21</div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;">18</div>
+						<div class="hexagon green" style="position: absolute; top: 6rem; left: 14rem;">11</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 28rem;"></div>
+
+						<div class="hexagon red" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 10.5rem;">15</div>
+						<div class="hexagon orangered" style="position: absolute; top: 8rem; left: 17.5rem;">22</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 7rem;">19</div>
+						<div class="hexagon orangered" style="position: absolute; top: 10rem; left: 14rem;">19</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 10rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 3.5rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 12rem; left: 10.5rem;">17</div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 12rem; left: 24.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 14rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 21rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 14rem; left: 28rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 3.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 10.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 17.5rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
+
+					</div>
+
+					<div style="padding-top: 10rem;">
+						<pre><code data-trim data-noescape class="language-rust" style="max-height: none;">
+							fn best_neighbor(tour: &Tour, cost: u64) -> Option&lt;(Tour, u64)&gt; {         // INNER LOOP
+								let (mut best, mut cost) = (None, cost);
+								for neighbor in feasible_neighbors_of(tour) { // not red
+									if tour_cost(&neighbor) < cost {
+										(best, cost) = (Some(neighbor), tour_cost(&neighbor));
+									}
+								}
+								best.map(|best| (best, cost))
+							}
+						</code></pre>
+
+						<pre><code data-trim data-noescape class="language-rust" style="max-height: none;">
+							fn local_search(initial_tour: Tour) -> Tour {                              // OUTER LOOP
+								let (mut best, mut cost) = (initial_tour, tour_cost(&initial_tour));
+								while let Some((best, cost)) = best_neighbor(&tour, cost) {
+									(tour, cost) = (best, tour_cost(&best));
+								}
+								tour
+							}
+						</code></pre>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<section data-auto-animate>
+					<h5>Neighborhoods ≡ Moves</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						struct Tour { /**/ } // sequence of locations: 0-2-1-4-3
+
+						struct Move { /**/ } // instruction to move to a particular neighbor
+
+						impl Move {
+							// takes the tour to the particular neighbor
+							fn apply(&self, tour: &mut Tour) { /**/ }
+						}
+					</code></pre>
+
+					<div data-id="hexagons-moves" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+
+					</div>
+
+					<div class="hexagons">
+						<div style="position: absolute; top: 2rem; left: 14rem;">
+							<p style="color: orangered;">Neighbor</p>
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Neighborhoods ≡ Moves</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						struct Tour { /**/ } // sequence of locations: 0-2-1-4-3
+
+						struct Move { /**/ } // instruction to move to a particular neighbor
+
+						impl Move {
+							// takes the tour to the particular neighbor
+							fn apply(&self, tour: &mut Tour) { /**/ }
+						}
+					</code></pre>
+
+					<div data-id="hexagons-moves" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+
+						<span class="arrow-right"
+							style="position: absolute; top: 6rem; left: 6rem; rotate: 30deg;"></span>
+					</div>
+
+					<div class="hexagons">
+						<div style="position: absolute; top: 2rem; left: 14rem;">
+							<p style="color: orangered;">Neighbor</p>
+							<p style="color: var(--blue);">Move</p>
+						</div>
+					</div>
+				</section>
+			</section>
+
+			<section>
+				<section>
+					<h5>Explicit Implementation</h5>
+				</section>
+
+				<section>
+					<h5>Explicit Implementation</h5>
+
+					<div class="col2 small-font">
+						<div>
+							<h6 style="color:orange">Duration</h6>
+							<p>minimize the total tour duration</p>
+							<p>keep duration within allowed limit</p>
+							<p>...</p>
+						</div>
+
+						<div>
+							<h6 style="color:orangered">TimeWindows</h6>
+							<p>minimize lateness of visits</p>
+							<p>minimize waiting time due to arriving early</p>
+							<p>...</p>
+						</div>
+					</div>
+
+				</section>
+
+				<section>
+					<h5>Input</h5>
+
+					<div class="col2 small-font">
+						<div>
+							<h6 style="color:orange">Duration</h6>
+							<pre><code data-trim data-noescape class="language-rust">
+								struct DurationMatrix {
+									// data required to evaluate a tour
+									// wrt Duration criterion
+									// 
+									// might be point-to-point duration computed
+									// via street routing
+
+									
+									/*fields*/
+								}
+							</code></pre>
+						</div>
+
+						<div>
+							<h6 style="color:orangered">TimeWindows</h6>
+							<pre><code data-trim data-noescape class="language-rust">
+								struct AvailableTimeSlots {
+									// data required to evaluate a tour
+									// wrt TimeWindows criterion
+									// 
+									// might be a map of location to
+									// time slots that we can visit
+									// the corresponding location
+									
+									/*fields*/
+								}
+							</code></pre>
+						</div>
+					</div>
+
+				</section>
+
+				<section>
+					<h5>Tour Cost Evaluation</h5>
+
+					<pre><code data-trim data-noescape class="language-shell" style="text-align: center;">
+						(input, tour) -> cost
+					</code></pre>
+
+					<div class="col2 small-font">
+						<div>
+							<h6 style="color:orange">Duration</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,8">
+								fn tour_cost_duration(
+									input: &DurationMatrix,
+									tour: &Tour,
+								) -> u64 {
+									// sum all driving duration between all
+									// locations in the tour sequence
+
+									todo!()
+								}
+							</code></pre>
+						</div>
+
+						<div>
+							<h6 style="color:orangered">TimeWindows</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,8">
+								fn tour_cost_tw(
+									input: &AvailableTimeSlots,
+									tour: &Tour,
+								) -> u64 {
+									// compute lateness & earliness of each
+									// location, compute sum of penalties
+
+									todo!()
+								}
+							</code></pre>
+						</div>
+					</div>
+
+				</section>
+
+				<section>
+					<h5>Feasible Moves</h5>
+
+					<pre><code data-trim data-noescape class="language-shell" style="text-align: center;">
+						(input, tour) -> moves & neighbor costs
+					</code></pre>
+
+					<div class="col2 small-font">
+						<div>
+							<h6 style="color:orange">Duration</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,14">
+								fn moves_duration(
+									input: &DurationMatrix,
+									tour: &Tour,
+								) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+									// create an iterator that yields
+									// all moves that takes the `tour`
+									// to all of its neighbors which
+									// are feasible wrt Duration criterion
+
+									// the second item of the pair is the
+									// tour cost of the neighbor wrt
+									// Duration criterion
+
+									todo!()
+								}
+							</code></pre>
+						</div>
+
+						<div>
+							<h6 style="color:orangered">TimeWindows</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,14">
+								fn moves_tw(
+									input: &AvailableTimeSlots,
+									tour: &Tour,
+								) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+									// create an iterator that yields
+									// all moves that takes the `tour`
+									// to all of its neighbors which
+									// are feasible wrt TimeWindows criterion
+
+									// the second item of the pair is the
+									// tour cost of the neighbor wrt
+									// TimeWindows criterion
+
+									todo!()
+								}
+							</code></pre>
+						</div>
+					</div>
+
+				</section>
+
+				<section>
+					<h5>Best Move</h5>
+
+					<pre><code data-trim data-noescape class="language-shell" style="text-align: center;">
+						(input, tour, tour_cost) -> move to best neighbor with lower cost than tour
+					</code></pre>
+
+					<div class="col2 small-font">
+						<div>
+							<h6 style="color:orange">Duration</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,9">
+								fn best_move_duration(
+									input: &DurationMatrix,
+									tour: &Tour,
+									cost: u64,
+								) -> Option&lt;(Move, u64)&gt; {
+									let mut best_cost = cost;
+									let mut best_move = None;
+
+									let moves = moves_duration(input, tour);
+
+									for (mv, cost) in moves {
+										if cost < best_cost {
+											best_move = Some(mv);
+											best_cost = cost;
+										}
+									}
+
+									best_move.map(|mv| (mv, best_cost))
+								}
+							</code></pre>
+						</div>
+
+						<div>
+							<h6 style="color:orangered">TimeWindows</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,9">
+								fn best_move_tw(
+									input: &AvailableTimeSlots,
+									tour: &Tour,
+									cost: u64,
+								) -> Option&lt;(Move, u64)&gt; {
+									let mut best_cost = cost;
+									let mut best_move = None;
+
+									let moves = moves_tw(input, tour);
+
+									for (mv, cost) in moves {
+										if cost < best_cost {
+											best_move = Some(mv);
+											best_cost = cost;
+										}
+									}
+
+									best_move.map(|mv| (mv, best_cost))
+								}
+							</code></pre>
+						</div>
+					</div>
+
+				</section>
+
+				<section>
+					<h5>Local Search</h5>
+
+					<pre><code data-trim data-noescape class="language-shell" style="text-align: center;">
+						(input, tour) -> locally optimal tour
+					</code></pre>
+
+					<div class="col2 small-font">
+						<div>
+							<h6 style="color:orange">Duration</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,6,9">
+								fn local_search_duration(
+									input: &DurationMatrix,
+									mut tour: Tour,
+								) -> Tour {
+									let mut cost =
+										tour_cost_duration(input, &tour);
+
+									while let Some((mv, neighbor_cost)) =
+										best_move_duration(input, &tour, cost)
+									{
+										mv.apply(&mut tour);
+										cost = neighbor_cost;
+									}
+
+									tour
+								}
+							</code></pre>
+						</div>
+
+						<div>
+							<h6 style="color:orangered">TimeWindows</h6>
+							<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|2,6,9">
+								fn local_search_tw(
+									input: &AvailableTimeSlots,
+									mut tour: Tour,
+								) -> Tour {
+									let mut cost =
+										tour_cost_tw(input, &tour);
+
+									while let Some((mv, neighbor_cost)) =
+										best_move_tw(input, &tour, cost)
+									{
+										mv.apply(&mut tour);
+										cost = neighbor_cost;
+									}
+
+									tour
+								}
+							</code></pre>
+						</div>
+					</div>
+
+				</section>
+
+			</section>
+
+			<section>
+
+				<section>
+					<div>
+						<p style="text-decoration: underline;">composing criteria</p>
+
+						<p>provided that we can solve:</p>
+						<ul>
+							<li>variant with criterion \(Duration \in C\), and</li>
+							<li>variant with criterion \(TimeWindows \in C\)</li>
+						</ul>
+
+						<p>can we also solve</p>
+						<ul>
+							<li>for criteria \(X = \{{Duration, TimeWindows\}}\)?</li>
+						</ul>
+
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search - Duration & Time Windows</h5>
+
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="2,3">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn moves_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+						) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+							let moves_duration = moves_duration(input_duration, tour);
+							let moves_tw = moves_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn best_move_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+							cost: u64,
+						) -> Option&lt;(Move, u64)&gt; {
+							let mut best_cost = cost;
+							let mut best_move = None;
+
+							for (mv, cost) in moves_duration_tw(input_duration, input_tw, tour) {
+								if cost < best_cost {
+									(best_cost, best_move) = (cost, Some(mv));
+								}
+							}
+
+							best_move
+						}
+
+						fn local_search_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							mut tour: Tour
+						) -> Tour {
+							let mut cost = tour_cost_duration_tw(input_duration, input_tw, &tour);
+
+							while let Some((mv, neighbor_cost)) =
+								best_move_duration_tw(input_duration, input_tw, &tour, cost)
+							{
+								mv.apply(&mut tour);
+								cost = neighbor_cost;
+							}
+							
+							tour
+						}
+					</code></pre>
+
+					<div class="small-font">
+						<p class="orangered">C1. compose inputs</p>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search - Duration & Time Windows</h5>
+
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="6-8">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn moves_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+						) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+							let moves_duration = moves_duration(input_duration, tour);
+							let moves_tw = moves_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn best_move_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+							cost: u64,
+						) -> Option&lt;(Move, u64)&gt; {
+							let mut best_cost = cost;
+							let mut best_move = None;
+
+							for (mv, cost) in moves_duration_tw(input_duration, input_tw, tour) {
+								if cost < best_cost {
+									(best_cost, best_move) = (cost, Some(mv));
+								}
+							}
+
+							best_move
+						}
+
+						fn local_search_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							mut tour: Tour
+						) -> Tour {
+							let mut cost = tour_cost_duration_tw(input_duration, input_tw, &tour);
+
+							while let Some((mv, neighbor_cost)) =
+								best_move_duration_tw(input_duration, input_tw, &tour, cost)
+							{
+								mv.apply(&mut tour);
+								cost = neighbor_cost;
+							}
+							
+							tour
+						}
+					</code></pre>
+
+					<div class="small-font">
+						<p class="orangered">C2. compose costs</p>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search - Duration & Time Windows</h5>
+
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="16-18">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn moves_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+						) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+							let moves_duration = moves_duration(input_duration, tour);
+							let moves_tw = moves_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn best_move_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+							cost: u64,
+						) -> Option&lt;(Move, u64)&gt; {
+							let mut best_cost = cost;
+							let mut best_move = None;
+
+							for (mv, cost) in moves_duration_tw(input_duration, input_tw, tour) {
+								if cost < best_cost {
+									(best_cost, best_move) = (cost, Some(mv));
+								}
+							}
+
+							best_move
+						}
+
+						fn local_search_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							mut tour: Tour
+						) -> Tour {
+							let mut cost = tour_cost_duration_tw(input_duration, input_tw, &tour);
+
+							while let Some((mv, neighbor_cost)) =
+								best_move_duration_tw(input_duration, input_tw, &tour, cost)
+							{
+								mv.apply(&mut tour);
+								cost = neighbor_cost;
+							}
+							
+							tour
+						}
+					</code></pre>
+
+					<div class="small-font">
+						<p class="orangered">C3. compose moves</p>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search - Duration & Time Windows</h5>
+
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="21-37|39-54">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn moves_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+						) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+							let moves_duration = moves_duration(input_duration, tour);
+							let moves_tw = moves_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn best_move_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+							cost: u64,
+						) -> Option&lt;(Move, u64)&gt; {
+							let mut best_cost = cost;
+							let mut best_move = None;
+
+							for (mv, cost) in moves_duration_tw(input_duration, input_tw, tour) {
+								if cost < best_cost {
+									(best_cost, best_move) = (cost, Some(mv));
+								}
+							}
+
+							best_move
+						}
+
+						fn local_search_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							mut tour: Tour
+						) -> Tour {
+							let mut cost = tour_cost_duration_tw(input_duration, input_tw, &tour);
+
+							while let Some((mv, neighbor_cost)) =
+								best_move_duration_tw(input_duration, input_tw, &tour, cost)
+							{
+								mv.apply(&mut tour);
+								cost = neighbor_cost;
+							}
+							
+							tour
+						}
+					</code></pre>
+
+					<div class="small-font">
+						<p class="green italic">already generic 🗸</p>
+					</div>
+
+				</section>
+
+				<section>
+					<p style="text-decoration: underline;">composing criteria</p>
+
+					<ul>
+						<li>define the <code>Criterion</code> abstraction</li>
+						<li>C1. compose inputs</li>
+						<li>C2. compose costs</li>
+						<li>C3. compose moves</li>
+					</ul>
+				</section>
+			</section>
+
+			<!-- ABSTRACTION -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>Abstraction</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Abstraction</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+						}
+					</code></pre>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						struct Duration;
+						impl Criterion for Duration { }
+
+						struct TimeWindows;
+						impl Criterion for TimeWindows { }
+					</code></pre>
+				</section>
+			</section>
+
+			<!-- COMPOSITION -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>Composition</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Composition</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+					struct ComposedCriteria&lt;X1, X2&gt;(X1, X2)
+					where
+						X1: Criterion,
+						X2: Criterion;
+
+					impl&lt;X1, X2&gt; Criterion for ComposedCriteria&lt;X1, X2&gt;
+					where
+						X1: Criterion,
+						X2: Criterion;
+					{
+					}
+				</code></pre>
+				</section>
+			</section>
+
+			<!-- COMPOSING INPUTS -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="col2">
+						<pre><code data-trim data-noescape class="language-rust">
+							fn tour_cost_duration_tw(
+								input_duration: &DurationMatrix,
+								input_tw: &AvailableTimeSlots,
+								tour: &Tour
+							) -> u64 {
+								/**/
+							}
+
+							fn moves_duration_tw(
+								input_duration: &DurationMatrix,
+								input_tw: &AvailableTimeSlots,
+								tour: &Tour,
+							) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+								/**/
+							}
+						</code></pre>
+						<div>
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="col2">
+						<pre><code data-trim data-noescape class="language-rust">
+							fn tour_cost_duration_tw(
+								input_duration: &DurationMatrix,
+								input_tw: &AvailableTimeSlots,
+								tour: &Tour
+							) -> u64 {
+								/**/
+							}
+
+							fn moves_duration_tw(
+								input_duration: &DurationMatrix,
+								input_tw: &AvailableTimeSlots,
+								tour: &Tour,
+							) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+								/**/
+							}
+						</code></pre>
+						<pre><code data-trim data-noescape class="language-rust">
+							fn tour_cost&lt;X: Criterion&gt;(
+								input: &X::Input,
+								tour: &Tour
+							) -> u64 {
+								/**/
+							}
+
+
+							fn moves&lt;X: Criterion&gt;(
+								input: &X::Input,
+								tour: &Tour,
+							) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+								/**/
+							}
+						</code></pre>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+						}
+					</code></pre>
+
+					<div class="cols_3_4">
+						<pre><code data-trim data-noescape class="language-rust">
+							impl Criterion for Duration {
+								type Input = DurationMatrix;
+							}
+
+							impl Criterion for TimeWindows {
+								type Input = AvailableTimeSlots;
+							}
+						</code></pre>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+						}
+					</code></pre>
+
+					<div class="cols_3_4">
+						<pre><code data-trim data-noescape class="language-rust">
+							impl Criterion for Duration {
+								type Input = DurationMatrix;
+							}
+
+							impl Criterion for TimeWindows {
+								type Input = AvailableTimeSlots;
+							}
+						</code></pre>
+
+						<pre data-id="rev"><code data-trim data-noescape class="language-rust">
+							impl&lt;X1, X2&gt; Criterion for ComposedCriteria&lt;X1, X2&gt;
+							where
+								X1: Criterion,
+								X2: Criterion;
+							{
+								type Input = ??;
+							}
+						</code></pre>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+						}
+					</code></pre>
+
+					<div class="cols_3_4">
+						<pre><code data-trim data-noescape class="language-rust">
+							impl Criterion for Duration {
+								type Input = DurationMatrix;
+							}
+
+							impl Criterion for TimeWindows {
+								type Input = AvailableTimeSlots;
+							}
+						</code></pre>
+
+						<pre data-id="rev"><code data-trim data-noescape class="language-rust">
+							impl&lt;X1, X2&gt; Criterion for ComposedCriteria&lt;X1, X2&gt;
+							where
+								X1: Criterion,
+								X2: Criterion;
+							{
+								type Input = (X1::Input, X2::Input);
+							}
+						</code></pre>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="small-font">
+						<p>
+							since <code>ComposedCriteria: Criterion</code>
+						</p>
+
+						<p>
+							it can recursively compose with itself as many times as we require
+						</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="small-font">
+						<ul>
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
+							</li>
+
+							<br />
+							<li>
+								<code>ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;</code>
+							</li>
+							<li style="list-style-type: none;">
+								<code>=> ((DurationMatrix, AvailableTimeSlots), CapacityDeltas)</code>
+							</li>
+
+							<br />
+							<li>
+								<code>ComposedCriteria&lt;ComposedCriteria&lt;ComposedCriteria&lt;X1, X2&gt;, X3&gt;, X4&gt;</code>
+							</li>
+							<li style="list-style-type: none;">
+								<code>=> (((X1::Input, X2::Input), X3::Input), X4::Input)</code>
+							</li>
+
+							<br />
+							<li>
+								...
+							</li>
+						</ul>
+					</div>
+				</section>
+			</section>
+
+			<!-- COMPOSING COST -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>C2. compose costs</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C2. compose costs</h5>
+
+					<pre data-id="compose-cost"><code data-trim data-noescape class="language-rust">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							
+							??
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C2. compose costs</h5>
+
+					<pre data-id="compose-cost"><code data-trim data-noescape class="language-rust">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							
+							cost_duration + cost_tw
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C2. compose costs</h5>
+
+					<pre data-id="compose-cost"><code data-trim data-noescape class="language-rust">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							
+							cost_duration + cost_tw
+						}
+					</code></pre>
+
+					<div class="small-font">
+						<p>actually not that obvious, see <strong>multi-objective optimization</strong></p>
+						<p>but we stick to <strong>addition</strong> here</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C2. compose costs</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C2. compose costs</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+						}
+					</code></pre>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						impl Criterion for Duration {
+							type Input = DurationMatrix;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
+								tour_cost_duration(input, tour)
+							}
+						}
+
+						impl Criterion for TimeWindows {
+							type Input = AvailableTimeSlots;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
+								tour_cost_tw(input, tour)
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C2. compose costs</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+						}
+					</code></pre>
+
+					<pre data-id="rev"><code data-trim data-noescape class="language-rust">
+						impl&lt;X1, X2&gt; Criterion for ComposedCriteria&lt;X1, X2&gt;
+						where
+							X1: Criterion,
+							X2: Criterion;
+						{
+							type Input = (X1::Input, X2::Input);
+
+							fn tour_cost((input1, input2): &Self::Input, tour: &Tour) -> u64 {
+								X1::tour_cost(input1, tour) + X2::tour_cost(input2, tour)
+							}
+						}
+					</code></pre>
+				</section>
+
+			</section>
+
+			<!-- COMPOSING MOVES -->
+
+			<section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<pre><code data-id="code4" data-trim data-noescape class="language-rust"">
+						fn duration_moves_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+						) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+							let duration_moves = duration_moves(input_duration, tour);
+							let tw_moves = tw_moves(input_tw, tour);
+
+							// ??
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
+						<p>some of these moves are feasible wrt <code>DurationMatrix</code></p>
+						<p>and some are feasible wrt <code>AvailableTimeSlots</code></p>
+						<p>⇊</p>
+						<p>composition is the <strong>intersection</strong> of the subsets</p>
+						<br />
+						<p><strong>challenge</strong>: keep the search in linear time</p>
+						<p><strong>trick</strong>: we fix the iteration order within the fixed neighborhood</p>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 5rem; left: 3.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 0rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 7rem;"></div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 0rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 7rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 27rem;"></div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 20rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 27rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 23.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 16rem;"></div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 9rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 16rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 0rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 7rem;"></div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 0rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 7rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 27rem;"></div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 20rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 27rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 23.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon red" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 16rem;"></div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 9rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 16rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 0rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 7rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 0rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 7rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 27rem;">0</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 20rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 27rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 23.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon red" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 23rem; left: 16rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 9rem;"></div>
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 16rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 0rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 7rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 0rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 7rem;">16</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 27rem;">0</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 27rem;">5</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 13rem; left: 23.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon red" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 23rem; left: 16rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 16rem;">21</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 0rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 7rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 0rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 7rem;">16</div>
+
+							<div class="hexagon red" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 27rem;">0</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 11rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 27rem;">5</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 13rem; left: 23.5rem;">9
+							</div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon red" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 23rem; left: 16rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 27rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 16rem;">21</div>
+
+							<div class="hexagon red" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 0rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 7rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 0rem;">21</div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 7rem;">16</div>
+
+							<div class="hexagon red" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 27rem;">0</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 20rem;">1</div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 27rem;">5</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 13rem; left: 23.5rem;">9
+							</div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon red" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon darkgray" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 23rem; left: 16rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 9rem;">22</div>
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 16rem;">21</div>
+
+							<div class="hexagon red" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 0rem;">19</div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 7rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 0rem;">21</div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 7rem;">16</div>
+
+							<div class="hexagon red" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon red" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 27rem;">0</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 20rem;">1</div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 27rem;">5</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 13rem; left: 23.5rem;">9
+							</div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon red" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon red" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 23rem; left: 16rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 9rem;">22</div>
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 16rem;">21</div>
+
+							<div class="hexagon red" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="1-6|8-19|21|23-46">
+enum ComposedNext {
+    OneIteratorConsumed,
+    BothYieldedSame(Move, u64),
+    FirstIteratorYieldedGreater(Move, u64),
+    SecondIteratorYieldedGreater(Move, u64),
+}
+
+impl ComposedNext {
+    fn new(next_move1: Option&lt;(Move, u64)&gt;, next_move2: Option&lt;(Move, u64)&gt;) -> Self {
+        match (next_move1, next_move2) {
+            (Some((x, cx)), Some((y, cy))) => match x.cmp(&y) {
+                Ordering::Equal => ComposedNext::BothYieldedSame(x, cx + cy),
+                Ordering::Greater => ComposedNext::FirstIteratorYieldedGreater(x, cx),
+                Ordering::Less => ComposedNext::SecondIteratorYieldedGreater(y, cy),
+            },
+            _ => ComposedNext::OneIteratorConsumed,
+        }
+    }
+}
+
+struct SortedIntersectingMoves&lt;Iter1, Iter2&gt(Iter1, Iter2);
+
+impl&lt;Iter1, Iter2&gt; Iterator for SortedIntersectingMoves&lt;Iter1, Iter2&gt;
+where
+    Iter1: Iterator&lt;Item = (Move, u64)&gt;,
+    Iter2: Iterator&lt;Item = (Move, u64)&gt;,
+{
+    type Item = (Move, u64);
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut next = ComposedNext::new(self.0.next(), self.1.next());
+
+        loop {
+            match next {
+								ComposedNext::OneIteratorConsumed => return None,
+                ComposedNext::BothYieldedSame((mv, cost)) => return Some((mv, cost)),
+                ComposedNext::FirstIteratorYieldedGreater((x, cx)) => {
+                    next = ComposedNext::new(Some((x, cx)), self.1.next());
+                }
+                ComposedNext::SecondIteratorYieldedGreater((y, cy)) => {
+                    next = ComposedNext::new(self.0.next(), Some((y, cy)));
+                }
+						}
+        }
+    }
+}
+					</code></pre>
+
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
+						}
+					</code></pre>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						impl Criterion for Duration {
+
+							type Input = DurationMatrix;
+							
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
+								tour_cost_duration(input, tour)
+							}
+							
+							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+								moves_duration(input, tour)
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
+						}
+					</code></pre>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						impl Criterion for TimeWindows {
+
+							type Input = AvailableTimeSlots;
+							
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
+								tour_cost_tw(input, tour)
+							}
+							
+							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+								moves_tw(input, tour)
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						trait Criterion {
+							type Input;
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
+						}
+					</code></pre>
+
+					<pre data-id="rev"><code data-trim data-noescape class="language-rust">
+						impl&lt;X1, X2&gt; Criterion for ComposedCriteria&lt;X1, X2&gt;
+						where
+							X1: Criterion,
+							X2: Criterion;
+						{
+							type Input = (X1::Input, X2::Input);
+
+							fn tour_cost((input1, input2): &Self::Input, tour: &Tour) -> u64 {
+								X1::tour_cost(input1, tour) + X2::tour_cost(input2, tour)
+							}
+
+							fn moves((input1, input2): &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+								let moves1 = X1::moves(input1, tour);
+								let moves2 = X2::moves(input2, tour);
+								SortedIntersectingMoves(moves1, moves2)
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p>
+							since <code>ComposedCriteria: Criterion</code>
+						</p>
+
+						<p>
+							it can recursively compose with itself as many times as we require
+						</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>SIM&lt;A, B&gt; := SortedIntersectingMoves&lt;A, B&gt;</code></p>
+						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMoves</code>
+							</li>
+
+							<br />
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> SIM&lt;DurationMoves, TwMoves&gt;</code>
+							</li>
+
+							<br />
+							<li>
+								<code>ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;</code>
+							</li>
+							<li style="list-style-type: none;">
+								<code>=> SIM&lt;SIM&lt;DurationMoves, TwMoves&gt;, CapacityMoves&gt;</code>
+							</li>
+
+							<br />
+							<li>
+								<code>ComposedCriteria&lt;ComposedCriteria&lt;ComposedCriteria&lt;X1, X2&gt;, X3&gt;, X4&gt;</code>
+							</li>
+							<li style="list-style-type: none;">
+								<code>=> SIM&lt;SIM&lt;SIM&lt;X1::Moves, X2::Moves&gt;, X3::Moves&gt;, X4::Moves&gt;</code>
+							</li>
+
+							<br />
+							<li>
+								...
+							</li>
+						</ul>
+					</div>
+				</section>
+
+			</section>
+
+			<!-- GENERIC LOCAL SEARCH -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>Generic Local Search</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Generic Best Move</h5>
+
+					<pre><code data-trim data-noescape class="language-rust" style="max-height: none;">
+						fn best_move&lt;X&gt;(input: &X::Input, tour: &Tour, cost: u64) -> Option&lt;(Move, u64)&gt;
+							where X: Criterion
+						{
+							let mut best_cost = cost;
+							let mut best_move = None;
+
+							for (mv, cost) in X::moves(input, tour) {
+								if cost < best_cost {
+									(best_cost, best_move) = (cost, Some(mv));
+								}
+							}
+
+							best_move
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Generic Local Search</h5>
+
+					<pre><code data-trim data-noescape class="language-rust" style="max-height: none;">
+						fn local_search&lt;X&gt;(initial_tour: Tour) -> Tour
+							where X: Criterion
+						{
+							let mut best_cost = cost;
+							
+							while let Some((mv, cost)) = best_move::&lt;X&gt;(&tour, best_cost) {
+								mv.apply(&mut tour);
+								best_cost = cost;
+							}
+
+							tour
+						}
+					</code></pre>
+				</section>
+			</section>
+
+			<!-- Maintainability -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>Maintainability</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Maintainability</h5>
+
+					<div class="small-font">
+						<p>we can maintain each criterion independently</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Maintainability</h5>
+
+					<div class="small-font">
+						<p>we can maintain each criterion independently</p>
+
+						<p>
+							in order to maintain the <code>Duration</code> criterion, we only need to maintain the
+							following
+						</p>
+					</div>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						impl Criterion for Duration {
+
+							type Input = DurationMatrix;
+							
+							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
+								tour_cost_duration(input, tour)
+							}
+							
+							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+								moves_duration(input, tour)
+							}
+						}
+					</code></pre>
+				</section>
+
+			</section>
+
+			<!-- Composability -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>Composability</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Composability</h5>
+
+					<div class="small-font">
+						<p>if we implemented 5 criteria</p>
+						<p>we can represent \(2^5-1=31\) problem variants</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Composability</h5>
+
+					<div class="small-font">
+						<p>if we implemented 5 criteria</p>
+						<p>we can represent \(2^5-1=31\) problem variants</p>
+					</div>
+
+					<pre data-id="code-compose"><code data-trim data-noescape class="language-rust">
+						type X = Duration;
+
+						let input: DurationMatrix = ...;
+						
+						let initial_tour: Tour = ...;
+
+						let optimal_tour = local_search::&lt;X&gt;(&input, initial_tour);
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Composability</h5>
+
+					<div class="small-font">
+						<p>if we implemented 5 criteria</p>
+						<p>we can represent \(2^5-1=31\) problem variants</p>
+					</div>
+
+					<pre data-id="code-compose"><code data-trim data-noescape class="language-rust">
+						type X = ComposedCriteria&lt;Duration, TimeWindows&gt;
+
+						let input_duration: DurationMatrix = ...;
+						let input_tw: AvailableTimeSlots = ...;
+						let input = (input_duration, input_tw);
+						
+						let initial_tour: Tour = ...;
+
+						let optimal_tour = local_search::&lt;X&gt;(&input, initial_tour);
+					</code></pre>
+				</section>
+
+
+
+				<section data-auto-animate>
+					<h5>Composability</h5>
+
+					<div class="small-font">
+						<p>if we implemented 5 criteria</p>
+						<p>we can represent \(2^5-1=31\) problem variants</p>
+					</div>
+
+					<pre data-id="code-compose"><code data-trim data-noescape class="language-rust">
+						type X = ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;
+
+						let input_duration: DurationMatrix = ...;
+						let input_tw: AvailableTimeSlots = ...;
+						let input_cap: CapacityDeltas = ...;
+						let input = ((input_duration, input_tw), input_cap);
+						
+						let initial_tour: Tour = ...;
+
+						let optimal_tour = local_search::&lt;X&gt;(&input, initial_tour);
+					</code></pre>
+				</section>
+
+			</section>
+
+			<!-- Extensibility -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>Extensibility</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Extensibility</h5>
+
+					<div class="small-font">
+						<p>if we implemented 5 criteria</p>
+						<p>we can represent \(2^5-1=31\) problem variants</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Extensibility</h5>
+
+					<div class="small-font">
+						<p>if we implemented 5 criteria</p>
+						<p>we can represent \(2^5-1=31\) problem variants</p>
+
+						<br />
+						<p>implementing the 6th criterion, increases this number to 63</p>
+						<p>7th criterion, increases this number to 127</p>
+						<p>⇊</p>
+						<p>makes it well-worth to add features</p>
+					</div>
+				</section>
+
+			</section>
+
+			<!-- Builder Pattern -->
+
+			<section>
+				<section data-auto-animate>
+					<h5>Ergonomics</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Ergonomics: The Problem</h5>
+
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-7,14">
+						type X = ComposedCriteria&lt;
+							ComposedCriteria&lt;
+								ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;,
+								Precedence,
+							&gt;,
+							Trailer,
+						&gt;;
+
+						let input_duration: DurationMatrix = ...;
+						let input_tw: AvailableTimeSlots = ...;
+						let input_cap: CapacityDeltas = ...;
+						let input_pre: PrecedenceRelations = ...;
+						let input_trl: TrailerChangePoints = ...;
+						let input = ((((input_duration, input_tw), input_cap), input_pre), input_trl);
+						
+						let initial_tour: Tour = ...;
+						let optimal_tour = local_search::&lt;X&gt;(&input, initial_tour);
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Ergonomics: The Solution</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						struct LocalSolver&lt;X: Criterion&gt; {
+							input: X::Input,
+						}
+
+						impl&lt;X: Criterion&gt; LocalSolver&lt;X&gt; {
+							fn new(input: X::Input) -> Self {
+								Self { input }
+							}
+
+							fn and_with<Y: Criterion>(self, input: Y::Input) -> LocalSolver&lt;ComposedCriteria&lt;X, Y&gt;&gt; {
+								LocalSolver::new((self.input, input))
+							}
+
+							fn run(&self, mut tour: Tour) -> Tour {
+								local_search::&lt;X&gt;(&self.input, tour)
+							}
+						}
+					</code></pre>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Ergonomics: The Solution</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						let input_duration: DurationMatrix = ...;
+						let input_tw: AvailableTimeSlots = ...;
+						let input_cap: CapacityDeltas = ...;
+						let input_pre: PrecedenceRelations = ...;
+						let input_trl: TrailerChangePoints = ...;
+
+						let initial_tour: Tour = ...;
+
+						let solver = LocalSolver::&lt;Duration&gt;(input_duration)
+							.and_with::&lt;TimeWindows&gt;(input_tw)
+							.and_with::&lt;Capacity&gt;(input_cap)
+							.and_with::&lt;Precedence&gt;(input_pre)
+							.and_with::&lt;Trailer&gt;(input_trl);
+
+						let optimal_tour = algorithm.run(initial_tour);
+					</code></pre>
+				</section>
+			</section>
+
+			<!-- Thank you -->
+
+			<section>
+				<section data-auto-animate>
+					<h5><span style="color:red;">♡</span> rust</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5><span style="color:red;">♡</span> rust</h5>
+
+					<div class="small-font" style="list-style-type: none;">
+						<li>performance</li>
+						<li>defaults</li>
+						<li>memory safety</li>
+						<li>error handling</li>
+						<li>tooling</li>
+						<li>...</li>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5><span style="color:red;">♡</span> rust</h5>
+
+					<div class="small-font" style="list-style-type: none;">
+						<li>performance</li>
+						<li>defaults</li>
+						<li>memory safety</li>
+						<li>error handling</li>
+						<li>tooling</li>
+						<li>...</li>
+						<li style="color:orangered;">type system</li>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5><span style="color:red;">♡</span> rust</h5>
+
+					<p>Thank you!</p>
+				</section>
+			</section>
+
+		</div>
+	</div>
+
+	<script src="dist/reveal.js"></script>
+	<script src="plugin/notes/notes.js"></script>
+	<script src="plugin/markdown/markdown.js"></script>
+	<script src="plugin/highlight/highlight.js"></script>
+	<script>
+		// More info about initialization & config:
+		// - https://revealjs.com/initialization/
+		// - https://revealjs.com/config/
+		Reveal.initialize({
+			hash: true,
+
+			// Learn about plugins: https://revealjs.com/plugins/
+			plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+		});
+	</script>
+</body>
+
+</html>

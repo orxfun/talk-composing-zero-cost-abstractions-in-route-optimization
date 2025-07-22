@@ -1,0 +1,152 @@
+:root {
+    --blue: #0066ff;
+}
+
+.subheader {
+    color: rgba(26, 183, 153, 1);
+    font-size: 1.25rem;
+}
+
+.boxes {
+    justify-content: center;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.box {
+    border: 1px solid white;
+    border-radius: 0.2rem;
+    padding: 1rem;
+}
+
+.box p {
+    font-size: 0.8rem;
+    text-align: right;
+    font-style: italic;
+    color: beige;
+}
+
+
+.no-border {
+    border: none;
+}
+
+.focused-border {
+    box-shadow: 0 0 3px 3px greenyellow;
+}
+
+.small-font {
+    font-size: 1.4rem;
+}
+
+img {
+    border: 1px solid orangered;
+    object-fit: contain;
+}
+
+/* shapes */
+
+.hexagon {
+    height: 4rem;
+    /* adjust to control the size  */
+    aspect-ratio: 1/cos(30deg);
+    clip-path: polygon(50% -50%, 100% 50%, 50% 150%, 0 50%);
+    background: white;
+
+    display: grid;
+    align-items: center;
+}
+
+.hexagons {
+    font-size: 1.5rem;
+    position: relative;
+    margin-left: calc(50% - 15rem);
+    margin-right: calc(50% - 15rem);
+}
+
+.arrow-right:after {
+    content: "";
+    display: inline-block !important;
+    width: 0;
+    height: 0;
+    border-left: 1.0rem solid var(--blue);
+    border-top: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid transparent;
+    vertical-align: middle;
+}
+
+.arrow-right:before {
+    width: 3rem;
+    height: 0.2rem;
+    background: var(--blue);
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* containers */
+
+.col2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.cols_3_4 {
+    display: grid;
+    grid-template-columns: 3fr 4fr;
+}
+
+/* styles */
+
+.italic {
+    font-style: italic;
+}
+
+
+/* colors */
+
+.transparent {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.white {
+    border-color: white;
+    background-color: white;
+    color: black;
+}
+
+.gray {
+    border-color: rgb(100, 100, 100);
+    background-color: gray;
+}
+
+.darkgray {
+    border-color: rgb(10, 10, 10);
+    background-color: rgb(10, 10, 10);
+}
+
+.yellow {
+    border-color: #ffcc00;
+    background-color: #ffcc00;
+}
+
+.orange {
+    border-color: orange;
+    background-color: orange;
+}
+
+.orangered {
+    border-color: orangered;
+    background-color: orangered;
+}
+
+.red {
+    border-color: red;
+    background-color: red;
+}
+
+.green {
+    border-color: green;
+    background-color: green;
+}
