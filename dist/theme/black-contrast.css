@@ -243,6 +243,7 @@ section.has-light-background h6 {
   overflow: auto;
   max-height: 400px;
   word-wrap: normal;
+  font-size: 1rem;
 }
 
 .reveal .code-wrapper {

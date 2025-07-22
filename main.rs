@@ -3,20 +3,21 @@ fn main() {
         fn def() {
             fn ghi() {
                 fn abc() {
-                    fn improving_move(
-                        input: &DurationMatrix,
-                        tour: &Tour,
-                        tour_cost: u64,
-                    ) -> Option<Move> {
-                        let (mut best_cost, mut best_move) = (tour_cost, None);
+                    fn local_search_tw(
+                        input_duration: &DurationMatrix,
+                        input_tw: &AvailableTimeSlots,
+                        mut tour: Tour,
+                    ) -> Tour {
+                        let mut cost = tour_cost_tw(input, &tour);
 
-                        for mv in feasible_moves(input, tour) {
-                            if mv.cost() < best_cost {
-                                (best_cost, best_move) = (mv.cost(), Some(mv));
-                            }
+                        while let Some((mv, neighbor_cost)) =
+                            best_move_duration_tw(input_duration, input_tw, &tour, cost)
+                        {
+                            mv.apply(&mut tour);
+                            cost = neighbor_cost;
                         }
 
-                        best_move
+                        tour
                     }
                 }
             }
