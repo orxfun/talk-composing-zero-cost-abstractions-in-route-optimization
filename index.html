@@ -2418,6 +2418,40 @@
 							<li style="list-style-type: none;">
 								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
 							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="small-font">
+						<ul>
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
+							</li>
+
+							<br />
+							<li>
+								<code>ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;</code>
+							</li>
+							<li style="list-style-type: none;">
+								<code>=> ((DurationMatrix, AvailableTimeSlots), CapacityDeltas)</code>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="small-font">
+						<ul>
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
+							</li>
 
 							<br />
 							<li>
@@ -2433,11 +2467,6 @@
 							</li>
 							<li style="list-style-type: none;">
 								<code>=> (((X1::Input, X2::Input), X3::Input), X4::Input)</code>
-							</li>
-
-							<br />
-							<li>
-								...
 							</li>
 						</ul>
 					</div>
