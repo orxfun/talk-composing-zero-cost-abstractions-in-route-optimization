@@ -43,22 +43,22 @@
 
 				<section data-auto-animate>
 					<div data-id="boxes" class="boxes">
-						<div class="box yellow">
+						<div class="box red">
 							composing
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
 						</div>
-						<div class="box orange">
+						<div class="box orangered">
 							zero cost
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
 						</div>
-						<div class="box orangered">
+						<div class="box orange">
 							abstractions
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
 						</div>
-						<div class="box red">
+						<div class="box yellow">
 							in route optimization
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
@@ -69,22 +69,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red focused-border">
+							<div class="box yellow focused-border">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -96,7 +96,7 @@
 							<div>
 								<br />
 								<ul>
-									<li>
+									<li data-id="tsp-list">
 										Traveling Salesperson Problem (TSP)
 									</li>
 								</ul>
@@ -113,22 +113,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red focused-border">
+							<div class="box yellow focused-border">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -140,13 +140,14 @@
 							<div>
 								<br />
 								<ul>
-									<li>
+									<li data-id="tsp-list">
 										Traveling Salesperson Problem (TSP)
 										<ul>
-											<li>with time windows</li>
 											<li>capacitated</li>
+											<li>with time windows</li>
 											<li>with precedence relations</li>
 											<li>with pickup and delivery</li>
+											<li>with grouped visits</li>
 											<li>...</li>
 										</ul>
 									</li>
@@ -164,22 +165,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange focused-border">
+							<div class="box orangered focused-border">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -191,8 +192,8 @@
 							<div>
 								<p style="text-decoration: underline;">speed as a requirement</p>
 								<ul>
-									<li>thousands of tour requests within a few hours</li>
-									<li>each request to be handled within two minutes</li>
+									<li>N of tour requests within a few hours</li>
+									<li>each request to be handled within M seconds</li>
 									<li>
 										each request requires communication among
 										<ul style="list-style-type: circle;">
@@ -202,8 +203,8 @@
 											<li>etc.</li>
 										</ul>
 									</li>
-									<li style="list-style-type: square; font-style: italic;">
-										5 seconds for the algorithm
+									<li style='list-style-type: "⇨ ";'>
+										<strong>1 second for the algorithm</strong>
 									</li>
 								</ul>
 							</div>
@@ -217,22 +218,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange focused-border">
+							<div class="box orangered focused-border">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -244,8 +245,8 @@
 							<div>
 								<p style="text-decoration: underline;">speed as a requirement</p>
 								<ul>
-									<li>thousands of tour requests within a few hours</li>
-									<li>each request to be handled within two minutes</li>
+									<li>N of tour requests within a few hours</li>
+									<li>each request to be handled within M seconds</li>
 									<li>
 										each request requires communication among
 										<ul style="list-style-type: circle;">
@@ -255,17 +256,17 @@
 											<li>etc.</li>
 										</ul>
 									</li>
-									<li style="list-style-type: square; font-style: italic;">
-										5 seconds for the algorithm
+									<li style='list-style-type: "⇨ ";'>
+										<strong>1 second for the algorithm</strong>
 									</li>
 								</ul>
 							</div>
 							<div>
 								<p style="text-decoration: underline;">speed as a quality feature</p>
 								<p>we often cannot prove global optimality</p>
-								<p>⇊</p>
+								<p>⇩</p>
 								<p>the more we search, the better the solution gets</p>
-								<p>⇊</p>
+								<p>⇩</p>
 								<p>the faster we search, the better the solution gets</p>
 							</div>
 						</div>
@@ -276,22 +277,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered focused-border">
+							<div class="box orange focused-border">
 								abstractions
 								<p>problem variants</p>
 								<p>extensibility</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -316,7 +317,7 @@
 									<li style="list-style-type: none;">
 										<hr />
 									</li>
-									<li style="font-style: italic;">open: new considerations to come</li>
+									<li style="list-style-type: '⇨ ';"><strong>open: new variants to come</strong></li>
 								</ul>
 							</div>
 							<div>
@@ -329,22 +330,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered focused-border">
+							<div class="box orange focused-border">
 								abstractions
 								<p>problem variants</p>
 								<p>extensibility</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -369,7 +370,7 @@
 									<li style="list-style-type: none;">
 										<hr />
 									</li>
-									<li style="font-style: italic;">open: new considerations to come</li>
+									<li style="list-style-type: '⇨ ';"><strong>open: new variants to come</strong></li>
 								</ul>
 							</div>
 							<div>
@@ -380,9 +381,10 @@
 									<li>different: objectives</li>
 								</ul>
 
-								<p>\(C\): set of all criteria</p>
+								<p><span class="math">C</span>: set of all criteria</p>
 
-								<p>\(X \subseteq C\): subset of criteria defining a specific problem variant</p>
+								<p><span class="math">X ⊆ C</span>: subset of criteria defining a specific problem
+									variant</p>
 							</div>
 						</div>
 					</div>
@@ -392,22 +394,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow focused-border">
+							<div class="box red focused-border">
 								composing
 								<p>maintainability</p>
 								<p>productivity</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>problem variants</p>
 								<p>extensibility</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -478,11 +480,11 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
 							<p style="color: orangered;">Neighbor: a similar tour</p>
-							<p style="color: white;"></p>⇉ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
+							<p style="color: white;"></p>⇨ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
 						</div>
 					</div>
 				</section>
@@ -1414,11 +1416,11 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
 							<p style="color: orangered;">Neighbor: a similar tour</p>
-							<p style="color: white;"></p>⇉ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
+							<p style="color: white;"></p>⇨ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
 						</div>
 					</div>
 				</section>
@@ -1447,7 +1449,7 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
 							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
@@ -1492,7 +1494,7 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
 							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
@@ -2638,7 +2640,7 @@
 						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
 						<p>some of these moves are feasible wrt <code>Duration</code></p>
 						<p>and some are feasible wrt <code>TimeWindows</code></p>
-						<p>⇊</p>
+						<p>⇩</p>
 						<p>composition is the <strong>intersection</strong> of the subsets</p>
 						<br />
 						<p><strong>challenge</strong>: keep the search in linear time</p>
@@ -3524,7 +3526,7 @@ where
 
 						<br />
 						<p>implementing the 6th criterion, increases this number to 63</p>
-						<p>⇊</p>
+						<p>⇩</p>
 						<p>makes it well-worth the effort to add new features</p>
 					</div>
 				</section>
