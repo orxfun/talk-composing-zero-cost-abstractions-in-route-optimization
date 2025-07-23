@@ -1439,7 +1439,8 @@
 								let (mut best, mut cost) = (None, cost);
 								for neighbor in feasible_neighbors_of(tour) { // not red
 									if tour_cost(&neighbor) < cost {
-										(best, cost) = (Some(neighbor), tour_cost(&neighbor));
+										best = Some(neighbor);
+										cost = tour_cost(&neighbor);
 									}
 								}
 								best.map(|best| (best, cost))
@@ -1448,9 +1449,10 @@
 
 						<pre><code data-trim data-noescape class="language-rust" style="max-height: none;">
 							fn local_search(initial_tour: Tour) -> Tour {                              // OUTER LOOP
-								let (mut best, mut cost) = (initial_tour, tour_cost(&initial_tour));
-								while let Some((best, cost)) = best_neighbor(&tour, cost) {
-									(tour, cost) = (best, tour_cost(&best));
+								let (mut best, mut best_cost) = (initial_tour, tour_cost(&initial_tour));
+								while let Some((neighbor, cost)) = best_neighbor(&tour, cost) {
+									tour = neighbor;
+									best_cost = cost;
 								}
 								tour
 							}
