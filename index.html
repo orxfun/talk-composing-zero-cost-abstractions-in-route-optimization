@@ -43,22 +43,22 @@
 
 				<section data-auto-animate>
 					<div data-id="boxes" class="boxes">
-						<div class="box yellow">
+						<div class="box red">
 							composing
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
 						</div>
-						<div class="box orange">
+						<div class="box orangered">
 							zero cost
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
 						</div>
-						<div class="box orangered">
+						<div class="box orange">
 							abstractions
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
 						</div>
-						<div class="box red">
+						<div class="box yellow">
 							in route optimization
 							<p>&nbsp;</p>
 							<p>&nbsp;</p>
@@ -69,22 +69,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red focused-border">
+							<div class="box yellow focused-border">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -96,7 +96,7 @@
 							<div>
 								<br />
 								<ul>
-									<li>
+									<li data-id="tsp-list">
 										Traveling Salesperson Problem (TSP)
 									</li>
 								</ul>
@@ -113,22 +113,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red focused-border">
+							<div class="box yellow focused-border">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -140,13 +140,14 @@
 							<div>
 								<br />
 								<ul>
-									<li>
+									<li data-id="tsp-list">
 										Traveling Salesperson Problem (TSP)
 										<ul>
-											<li>with time windows</li>
 											<li>capacitated</li>
+											<li>with time windows</li>
 											<li>with precedence relations</li>
 											<li>with pickup and delivery</li>
+											<li>with grouped visits</li>
 											<li>...</li>
 										</ul>
 									</li>
@@ -164,22 +165,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange focused-border">
+							<div class="box orangered focused-border">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -191,8 +192,8 @@
 							<div>
 								<p style="text-decoration: underline;">speed as a requirement</p>
 								<ul>
-									<li>thousands of tour requests within a few hours</li>
-									<li>each request to be handled within two minutes</li>
+									<li>N of tour requests within a few hours</li>
+									<li>each request to be handled within M seconds</li>
 									<li>
 										each request requires communication among
 										<ul style="list-style-type: circle;">
@@ -202,8 +203,8 @@
 											<li>etc.</li>
 										</ul>
 									</li>
-									<li style="list-style-type: square; font-style: italic;">
-										5 seconds for the algorithm
+									<li style='list-style-type: "⇨ ";'>
+										<strong>1 second for the algorithm</strong>
 									</li>
 								</ul>
 							</div>
@@ -217,22 +218,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange focused-border">
+							<div class="box orangered focused-border">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -244,8 +245,8 @@
 							<div>
 								<p style="text-decoration: underline;">speed as a requirement</p>
 								<ul>
-									<li>thousands of tour requests within a few hours</li>
-									<li>each request to be handled within two minutes</li>
+									<li>N of tour requests within a few hours</li>
+									<li>each request to be handled within M seconds</li>
 									<li>
 										each request requires communication among
 										<ul style="list-style-type: circle;">
@@ -255,17 +256,17 @@
 											<li>etc.</li>
 										</ul>
 									</li>
-									<li style="list-style-type: square; font-style: italic;">
-										5 seconds for the algorithm
+									<li style='list-style-type: "⇨ ";'>
+										<strong>1 second for the algorithm</strong>
 									</li>
 								</ul>
 							</div>
 							<div>
 								<p style="text-decoration: underline;">speed as a quality feature</p>
 								<p>we often cannot prove global optimality</p>
-								<p>⇊</p>
+								<p>⇩</p>
 								<p>the more we search, the better the solution gets</p>
-								<p>⇊</p>
+								<p>⇩</p>
 								<p>the faster we search, the better the solution gets</p>
 							</div>
 						</div>
@@ -276,22 +277,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered focused-border">
+							<div class="box orange focused-border">
 								abstractions
 								<p>problem variants</p>
 								<p>extensibility</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -316,7 +317,7 @@
 									<li style="list-style-type: none;">
 										<hr />
 									</li>
-									<li style="font-style: italic;">open: new considerations to come</li>
+									<li style="list-style-type: '⇨ ';"><strong>open: new variants to come</strong></li>
 								</ul>
 							</div>
 							<div>
@@ -329,22 +330,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow">
+							<div class="box red">
 								composing
 								<p>&nbsp;</p>
 								<p>&nbsp;</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered focused-border">
+							<div class="box orange focused-border">
 								abstractions
 								<p>problem variants</p>
 								<p>extensibility</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -369,7 +370,7 @@
 									<li style="list-style-type: none;">
 										<hr />
 									</li>
-									<li style="font-style: italic;">open: new considerations to come</li>
+									<li style="list-style-type: '⇨ ';"><strong>open: new variants to come</strong></li>
 								</ul>
 							</div>
 							<div>
@@ -380,9 +381,10 @@
 									<li>different: objectives</li>
 								</ul>
 
-								<p>\(C\): set of all criteria</p>
+								<p><span class="math">C</span>: set of all criteria</p>
 
-								<p>\(X \subseteq C\): subset of criteria defining a specific problem variant</p>
+								<p><span class="math">X ⊆ C</span>: subset of criteria defining a specific problem
+									variant</p>
 							</div>
 						</div>
 					</div>
@@ -392,22 +394,22 @@
 				<section data-auto-animate>
 					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
 						<div data-id="boxes" class="boxes">
-							<div class="box yellow focused-border">
+							<div class="box red focused-border">
 								composing
 								<p>maintainability</p>
 								<p>productivity</p>
 							</div>
-							<div class="box orange">
+							<div class="box orangered">
 								zero cost
 								<p>performance</p>
 								<p>monomorphization</p>
 							</div>
-							<div class="box orangered">
+							<div class="box orange">
 								abstractions
 								<p>problem variants</p>
 								<p>extensibility</p>
 							</div>
-							<div class="box red">
+							<div class="box yellow">
 								in route optimization
 								<p>the domain</p>
 								<p>&nbsp;</p>
@@ -461,15 +463,45 @@
 					<h5>Local Search</h5>
 
 					<div data-id="hexagons-moves" class="hexagons">
+						<div class="hexagon transparent" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+
+						<div class="hexagon transparent" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon transparent" style="position: absolute; top: 2rem; left: 7rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;"></div>
+
+						<div class="hexagon transparent" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon transparent" style="position: absolute; top: 6rem; left: 7rem;"></div>
+
+						<div class="hexagon transparent" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+
+					</div>
+
+					<div class="hexagons">
+						<div style="position: absolute; top: 2rem; left: 14rem;">
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: orange;">&nbsp;</p>
+							<p style="color: white;">&nbsp;</p>
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+
+					<div data-id="hexagons-moves" class="hexagons">
 						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
 
 						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
 						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
 
-						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;"></div>
 
 						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
-						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 7rem;"></div>
 
 						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
 
@@ -478,11 +510,41 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
-							<p style="color: orangered;">Neighbor: a similar tour</p>
-							<p style="color: white;"></p>⇉ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
+							<p style="color: orange;">&nbsp;</p>
+							<p style="color: white;">&nbsp;</p>
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+
+					<div data-id="hexagons-moves" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon orange" style="position: absolute; top: 6rem; left: 7rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+
+					</div>
+
+					<div class="hexagons">
+						<div style="position: absolute; top: 2rem; left: 14rem;">
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: orange;">Neighbor: a similar tour</p>
+							<p style="color: white;"></p>⇨ 0-<span style="color:orange">5</span>-2-3-4-1</p>
 						</div>
 					</div>
 				</section>
@@ -1310,6 +1372,11 @@
 						<div class="hexagon darkgray" style="position: absolute; top: 16rem; left: 24.5rem;"></div>
 
 					</div>
+
+					<div class="hexagons">
+						<div class="green-card" style="position:absolute; top:3rem;left:20rem;">local optimum</div>
+					</div>
+
 				</section>
 
 				<section data-auto-animate>
@@ -1414,11 +1481,11 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
 							<p style="color: orangered;">Neighbor: a similar tour</p>
-							<p style="color: white;"></p>⇉ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
+							<p style="color: white;"></p>⇨ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
 						</div>
 					</div>
 				</section>
@@ -1447,10 +1514,10 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
-							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
+							<p style="color: var(--blue);">Move: instructions to move to a neighbor</p>
 							<p class="italic">move city <span style="color:var(--blue)">5</span> to position <span
 									style="color:var(--blue)">1</span></p>
 						</div>
@@ -1492,10 +1559,10 @@
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
 							<p style="color: white;">Solution: a tour</p>
-							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+							<p style="color: white;"></p>⇨ 0-1-2-3-4-5</p>
 
 							<br />
-							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
+							<p style="color: var(--blue);">Move: instructions to move to a neighbor</p>
 							<p class="italic">move city <span style="color:var(--blue)">5</span> to position <span
 									style="color:var(--blue)">1</span></p>
 						</div>
@@ -2167,9 +2234,14 @@
 
 					<ul>
 						<li>define the <code>Criterion</code> abstraction</li>
-						<li>C1. compose inputs</li>
-						<li>C2. compose costs</li>
-						<li>C3. compose moves</li>
+						<li>
+							define composed criteria
+							<ul>
+								<li>C1. compose inputs</li>
+								<li>C2. compose costs</li>
+								<li>C3. compose moves</li>
+							</ul>
+						</li>
 					</ul>
 				</section>
 			</section>
@@ -2366,11 +2438,11 @@
 				<section data-auto-animate>
 					<h5>C1. compose inputs</h5>
 
-					<pre><code data-trim data-noescape class="language-rust">
-						trait Criterion {
+					<pre><code data-trim data-noescape class=" language-rust">
+							trait Criterion {
 							type Input;
-						}
-					</code></pre>
+							}
+							</code></pre>
 
 					<div class="cols_3_4">
 						<pre><code data-trim data-noescape class="language-rust">
@@ -2393,12 +2465,16 @@
 							}
 						</code></pre>
 					</div>
+
+					<div class="align-child-right">
+						<div class="green-card">tuple</div>
+					</div>
 				</section>
 
 				<section data-auto-animate>
 					<h5>C1. compose inputs</h5>
 
-					<div class="small-font">
+					<div class=" small-font">
 						<p>
 							since <code>ComposedCriteria: Criterion</code>
 						</p>
@@ -2512,6 +2588,10 @@
 							cost_duration + cost_tw
 						}
 					</code></pre>
+
+					<div data-id="card-cost" class="align-child-right">
+						<div class="green-card">addition</div>
+					</div>
 				</section>
 
 				<section data-auto-animate>
@@ -2529,6 +2609,10 @@
 							cost_duration + cost_tw
 						}
 					</code></pre>
+
+					<div data-id="card-cost" class="align-child-right">
+						<div class="green-card">addition</div>
+					</div>
 
 					<div class="small-font">
 						<p>actually not that obvious, see <strong>multi-objective optimization</strong></p>
@@ -2638,13 +2722,40 @@
 						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
 						<p>some of these moves are feasible wrt <code>Duration</code></p>
 						<p>and some are feasible wrt <code>TimeWindows</code></p>
-						<p>⇊</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
+						<p>some of these moves are feasible wrt <code>Duration</code></p>
+						<p>and some are feasible wrt <code>TimeWindows</code></p>
+						<div class="align-child-right">
+							<div class="green-card">intersection</div>
+						</div>
+						<p>⇩</p>
+						<p>composition is the <strong>intersection</strong> of the subsets</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
+						<p>some of these moves are feasible wrt <code>Duration</code></p>
+						<p>and some are feasible wrt <code>TimeWindows</code></p>
+						<div class="align-child-right">
+							<div class="green-card">intersection</div>
+						</div>
+						<p>⇩</p>
 						<p>composition is the <strong>intersection</strong> of the subsets</p>
 						<br />
-						<p><strong>challenge</strong>: keep the search in linear time</p>
-						<p><strong>trick</strong>: we fix the iteration order within the fixed neighborhood</p>
+						<p><strong>challenge</strong>: intersect two iterators in linear time</p>
+						<p><strong>trick</strong>: traverse neighbors in a standard order</p>
 					</div>
-
 				</section>
 
 				<section data-auto-animate>
@@ -3383,7 +3494,7 @@ where
 					<h5>Maintainability</h5>
 
 					<div class="small-font">
-						<p>we can maintain each criterion independently</p>
+						<p>we maintain each criterion independently</p>
 					</div>
 				</section>
 
@@ -3391,11 +3502,10 @@ where
 					<h5>Maintainability</h5>
 
 					<div class="small-font">
-						<p>we can maintain each criterion independently</p>
+						<p>we maintain each criterion independently</p>
 
 						<p>
-							in order to maintain the <code>Duration</code> criterion, we only need to maintain the
-							following
+							in order to maintain the <code>Duration</code> criterion, only the following is relevant
 						</p>
 					</div>
 
@@ -3524,7 +3634,7 @@ where
 
 						<br />
 						<p>implementing the 6th criterion, increases this number to 63</p>
-						<p>⇊</p>
+						<p>⇩</p>
 						<p>makes it well-worth the effort to add new features</p>
 					</div>
 				</section>
@@ -3541,7 +3651,7 @@ where
 				<section data-auto-animate>
 					<h5>The Problem</h5>
 
-					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-7,14">
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-7|14">
 						type X = ComposedCriteria&lt;
 							ComposedCriteria&lt;
 								ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;,
@@ -3565,7 +3675,7 @@ where
 				<section data-auto-animate>
 					<h5>The Solution</h5>
 
-					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|10-12">
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-3|6-8|10-12|14-16">
 						struct LocalSolver&lt;X: Criterion&gt; {
 							input: X::Input,
 						}
@@ -3575,12 +3685,12 @@ where
 								Self { input }
 							}
 
-							fn and_with<Y: Criterion>(self, input: Y::Input) -> LocalSolver&lt;ComposedCriteria&lt;X, Y&gt;&gt; {
-								LocalSolver::new((self.input, input))
+							fn run(&self, tour: Tour) -> Tour {
+								local_search::&lt;X&gt;(&self.input, tour)
 							}
 
-							fn run(&self, mut tour: Tour) -> Tour {
-								local_search::&lt;X&gt;(&self.input, tour)
+							fn and_with&lt;Y: Criterion&gt;(self, input: Y::Input) -> LocalSolver&lt;ComposedCriteria&lt;X, Y&gt;&gt; {
+								LocalSolver::new((self.input, input))
 							}
 						}
 					</code></pre>
@@ -3628,14 +3738,13 @@ where
 							great
 							defaults</div>
 						<div class="card"
-							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 14rem;">
 							memory safety</div>
 						<div class="card"
-							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
-							error
-							handling</div>
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 4rem;">
+							error handling</div>
 						<div class="card"
-							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							style="border-color: red; color: red; position: absolute; top: 6.5rem; left: 18rem;">
 							tooling</div>
 					</div>
 
@@ -3653,18 +3762,16 @@ where
 							great
 							defaults</div>
 						<div class="card"
-							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 14rem;">
 							memory safety</div>
 						<div class="card"
-							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
-							error
-							handling</div>
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 4rem;">
+							error handling</div>
 						<div class="card"
-							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							style="border-color: red; color: red; position: absolute; top: 6.5rem; left: 18rem;">
 							tooling</div>
 
-						<div class="card focused-border"
-							style="border-color: green; color: green; position: absolute; top: 16rem; left: 4rem; width: 20rem;">
+						<div class="green-card" style="position: absolute; top: 13rem; left: 14rem;">
 							type system
 						</div>
 					</div>

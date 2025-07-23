@@ -50,9 +50,27 @@ img {
 }
 
 .card {
+    display: inline-block;
+    padding: 1rem 3rem;
     border: 1px solid white;
     border-radius: 0.3rem;
-    padding: 1rem;
+}
+
+.green-card {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background-color: green;
+    border: 1px solid yellowgreen;
+    border-radius: 0.3rem;
+    rotate: 340deg;
+}
+
+/* alignments */
+
+.align-child-right {
+    width: 95%;
+    display: flex;
+    justify-content: end;
 }
 
 /* shapes */
