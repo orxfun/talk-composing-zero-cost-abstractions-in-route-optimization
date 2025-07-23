@@ -2588,6 +2588,10 @@
 							cost_duration + cost_tw
 						}
 					</code></pre>
+
+					<div data-id="card-cost" class="align-child-right">
+						<div class="green-card">addition</div>
+					</div>
 				</section>
 
 				<section data-auto-animate>
@@ -2605,6 +2609,10 @@
 							cost_duration + cost_tw
 						}
 					</code></pre>
+
+					<div data-id="card-cost" class="align-child-right">
+						<div class="green-card">addition</div>
+					</div>
 
 					<div class="small-font">
 						<p>actually not that obvious, see <strong>multi-objective optimization</strong></p>
@@ -2714,13 +2722,40 @@
 						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
 						<p>some of these moves are feasible wrt <code>Duration</code></p>
 						<p>and some are feasible wrt <code>TimeWindows</code></p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
+						<p>some of these moves are feasible wrt <code>Duration</code></p>
+						<p>and some are feasible wrt <code>TimeWindows</code></p>
+						<div class="align-child-right">
+							<div class="green-card">intersection</div>
+						</div>
+						<p>⇩</p>
+						<p>composition is the <strong>intersection</strong> of the subsets</p>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
+						<p>some of these moves are feasible wrt <code>Duration</code></p>
+						<p>and some are feasible wrt <code>TimeWindows</code></p>
+						<div class="align-child-right">
+							<div class="green-card">intersection</div>
+						</div>
 						<p>⇩</p>
 						<p>composition is the <strong>intersection</strong> of the subsets</p>
 						<br />
-						<p><strong>challenge</strong>: keep the search in linear time</p>
-						<p><strong>trick</strong>: we fix the iteration order within the fixed neighborhood</p>
+						<p><strong>challenge</strong>: intersect two iterators in linear time</p>
+						<p><strong>trick</strong>: traverse neighbors in a standard order</p>
 					</div>
-
 				</section>
 
 				<section data-auto-animate>
