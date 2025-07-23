@@ -1374,9 +1374,7 @@
 					</div>
 
 					<div class="hexagons">
-						<div class="card green"
-							style="position:absolute; rotate:340deg; top:3rem;left:20rem; border-color:darkgreen;">
-							local optimum</div>
+						<div class="green-card" style="position:absolute; top:3rem;left:20rem;">local optimum</div>
 					</div>
 
 				</section>
@@ -2440,11 +2438,11 @@
 				<section data-auto-animate>
 					<h5>C1. compose inputs</h5>
 
-					<pre><code data-trim data-noescape class="language-rust">
-						trait Criterion {
+					<pre><code data-trim data-noescape class=" language-rust">
+							trait Criterion {
 							type Input;
-						}
-					</code></pre>
+							}
+							</code></pre>
 
 					<div class="cols_3_4">
 						<pre><code data-trim data-noescape class="language-rust">
@@ -2467,12 +2465,16 @@
 							}
 						</code></pre>
 					</div>
+
+					<div class="align-child-right">
+						<div class="green-card">tuple</div>
+					</div>
 				</section>
 
 				<section data-auto-animate>
 					<h5>C1. compose inputs</h5>
 
-					<div class="small-font">
+					<div class=" small-font">
 						<p>
 							since <code>ComposedCriteria: Criterion</code>
 						</p>
