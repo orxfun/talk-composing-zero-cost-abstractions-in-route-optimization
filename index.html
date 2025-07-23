@@ -1532,7 +1532,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						struct Tour { /**/ } // sequence of locations: 0-2-1-4-3
 
-						struct Move { /**/ } // instruction to move to a particular neighbor
+						struct Move { /**/ } // instructions to move to a particular neighbor
 
 						impl Move {
 							// takes the tour to the particular neighbor
@@ -1819,7 +1819,7 @@
 					<h5>Local Search</h5>
 
 					<pre><code data-trim data-noescape class="language-shell" style="text-align: center;">
-						(input, tour) -> locally optimal tour
+						(input, tour) -> local optimal tour
 					</code></pre>
 
 					<div class="col2 small-font">
@@ -2442,7 +2442,7 @@
 
 					<pre><code data-trim data-noescape class=" language-rust">
 							trait Criterion {
-							type Input;
+								type Input;
 							}
 							</code></pre>
 
@@ -2492,6 +2492,25 @@
 
 					<div class="small-font">
 						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMatrix</code>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="small-font">
+						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMatrix</code>
+							</li>
+
+							<br />
 							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
 							<li style="list-style-type: none;">
 								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
@@ -2505,6 +2524,12 @@
 
 					<div class="small-font">
 						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMatrix</code>
+							</li>
+
+							<br />
 							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
 							<li style="list-style-type: none;">
 								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
@@ -2526,6 +2551,12 @@
 
 					<div class="small-font">
 						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMatrix</code>
+							</li>
+
+							<br />
 							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
 							<li style="list-style-type: none;">
 								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
@@ -2704,7 +2735,7 @@
 					<h5>C3. compose moves</h5>
 
 					<pre><code data-id="code4" data-trim data-noescape class="language-rust"">
-						fn duration_moves_tw(
+						fn moves_duration_tw(
 							input_duration: &DurationMatrix,
 							input_tw: &AvailableTimeSlots,
 							tour: &Tour,
@@ -3194,7 +3225,7 @@ where
 {
     type Item = (Move, u64);
 
-    fn next(&mut self) -> Option<Self::Item> {
+    fn next(&mut self) -> Option&lt;Self::Item&gt; {
         let mut next = ComposedNext::new(self.0.next(), self.1.next());
 
         loop {
@@ -3643,11 +3674,28 @@ where
 
 			</section>
 
-			<!-- Builder Pattern -->
+			<!-- Ergonomics -->
 
 			<section>
 				<section data-auto-animate>
 					<h5>Ergonomics</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>The Problem</h5>
+
+					<pre data-id="code-compose"><code data-trim data-noescape class="language-rust">
+						type X = ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;
+
+						let input_duration: DurationMatrix = ...;
+						let input_tw: AvailableTimeSlots = ...;
+						let input_cap: CapacityDeltas = ...;
+						let input = ((input_duration, input_tw), input_cap);
+						
+						let initial_tour: Tour = ...;
+
+						let optimal_tour = local_search::&lt;X&gt;(&input, initial_tour);
+					</code></pre>
 				</section>
 
 				<section data-auto-animate>
@@ -3701,7 +3749,7 @@ where
 				<section data-auto-animate>
 					<h5>The Result</h5>
 
-					<pre><code data-trim data-noescape class="language-rust">
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|9|9-10|9-11|9-12|9-13|15">
 						let input_duration: DurationMatrix = ...;
 						let input_tw: AvailableTimeSlots = ...;
 						let input_cap: CapacityDeltas = ...;
@@ -3710,13 +3758,13 @@ where
 
 						let initial_tour: Tour = ...;
 
-						let solver = LocalSolver::&lt;Duration&gt;(input_duration)
+						let solver = LocalSolver::&lt;Duration&gt;::new(input_duration)
 							.and_with::&lt;TimeWindows&gt;(input_tw)
 							.and_with::&lt;Capacity&gt;(input_cap)
 							.and_with::&lt;Precedence&gt;(input_pre)
 							.and_with::&lt;Trailer&gt;(input_trl);
 
-						let optimal_tour = algorithm.run(initial_tour);
+						let optimal_tour = solver.run(initial_tour);
 					</code></pre>
 				</section>
 			</section>
@@ -3782,7 +3830,7 @@ where
 
 				<section data-auto-animate>
 					<h5>❤️🦀</h5>
-					<p>Thank you!</p>
+					<p>thank you!</p>
 				</section>
 			</section>
 
