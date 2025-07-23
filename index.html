@@ -21,7 +21,7 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
-			<section data-auto-animate>
+			<section>
 				<div class="boxes">
 					<div class="box no-border">composing</div>
 					<div class="box no-border">zero cost</div>
@@ -98,6 +98,50 @@
 								<ul>
 									<li>
 										Traveling Salesperson Problem (TSP)
+									</li>
+								</ul>
+							</div>
+							<div style="display: grid; grid-template-columns: auto auto; gap: 0rem;">
+								<img style="background-color: white;" src="img/tsp-not-solved.png" />
+								<img style="background-color: white;" src="img/tsp-solved.png" />
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+						<div data-id="boxes" class="boxes">
+							<div class="box yellow">
+								composing
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orange">
+								zero cost
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orangered">
+								abstractions
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box red focused-border">
+								in route optimization
+								<p>the domain</p>
+								<p>&nbsp;</p>
+							</div>
+						</div>
+
+
+						<div class="small-font" style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem;">
+							<div>
+								<br />
+								<ul>
+									<li>
+										Traveling Salesperson Problem (TSP)
 										<ul>
 											<li>with time windows</li>
 											<li>capacitated</li>
@@ -111,6 +155,59 @@
 							<div style="display: grid; grid-template-columns: auto auto; gap: 0rem;">
 								<img style="background-color: white;" src="img/tsp-not-solved.png" />
 								<img style="background-color: white;" src="img/tsp-solved.png" />
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+						<div data-id="boxes" class="boxes">
+							<div class="box yellow">
+								composing
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orange focused-border">
+								zero cost
+								<p>performance</p>
+								<p>monomorphization</p>
+							</div>
+							<div class="box orangered">
+								abstractions
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box red">
+								in route optimization
+								<p>the domain</p>
+								<p>&nbsp;</p>
+							</div>
+						</div>
+
+
+						<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+							<div>
+								<p style="text-decoration: underline;">speed as a requirement</p>
+								<ul>
+									<li>thousands of tour requests within a few hours</li>
+									<li>each request to be handled within two minutes</li>
+									<li>
+										each request requires communication among
+										<ul style="list-style-type: circle;">
+											<li>mobile devices</li>
+											<li>databases</li>
+											<li>street routing service</li>
+											<li>etc.</li>
+										</ul>
+									</li>
+									<li style="list-style-type: square; font-style: italic;">
+										5 seconds for the algorithm
+									</li>
+								</ul>
+							</div>
+							<div>
 							</div>
 						</div>
 					</div>
@@ -223,6 +320,59 @@
 								</ul>
 							</div>
 							<div>
+							</div>
+						</div>
+					</div>
+
+				</section>
+
+				<section data-auto-animate>
+					<div style="display: grid; grid-template-rows: 1fr auto; gap: 3rem">
+						<div data-id="boxes" class="boxes">
+							<div class="box yellow">
+								composing
+								<p>&nbsp;</p>
+								<p>&nbsp;</p>
+							</div>
+							<div class="box orange">
+								zero cost
+								<p>performance</p>
+								<p>monomorphization</p>
+							</div>
+							<div class="box orangered focused-border">
+								abstractions
+								<p>problem variants</p>
+								<p>extensibility</p>
+							</div>
+							<div class="box red">
+								in route optimization
+								<p>the domain</p>
+								<p>&nbsp;</p>
+							</div>
+						</div>
+
+
+						<div class="small-font" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+							<div>
+								<p style="text-decoration: underline;">problem variants</p>
+								<ul>
+									<li>just minimize tour duration</li>
+									<li style="list-style-type: none;">
+										<hr />
+									</li>
+									<li>go to delivery location only after pickup</li>
+									<li>visit location X before Y</li>
+									<li>cannot visit location X in the morning</li>
+									<li>visit locations X, Y and Z together</li>
+									<li>do not exceed vehicle capacity</li>
+									<li>might use a trailer to double capacity</li>
+									<li style="list-style-type: none;">
+										<hr />
+									</li>
+									<li style="font-style: italic;">open: new considerations to come</li>
+								</ul>
+							</div>
+							<div>
 								<p style="text-decoration: underline;">variants as criteria</p>
 								<p>treat each consideration as a criterion</p>
 								<ul>
@@ -271,13 +421,13 @@
 
 								<p>provided that we can solve:</p>
 								<ul>
-									<li>variant with criterion \(a \in C\), and</li>
-									<li>variant with criterion \(b \in C\)</li>
+									<li>variant with criterion <span class="math">a ⊆ C</span>, and</li>
+									<li>variant with criterion <span class="math">b ⊆ C</span></li>
 								</ul>
 
 								<p>can we also solve</p>
 								<ul>
-									<li>for criteria \(X = \{{a, b\}}\)?</li>
+									<li>for criteria <span class="math">X = {a, b}</span>?</li>
 								</ul>
 
 							</div>
@@ -289,9 +439,10 @@
 									<li>different: objectives</li>
 								</ul>
 
-								<p>\(C\): set of all criteria</p>
+								<p><span class="math">C</span>: set of all criteria</p>
 
-								<p>\(X \subseteq C\): subset of criteria defining a specific problem variant</p>
+								<p><span class="math">X ⊆ C</span>: subset of criteria defining a specific problem
+									variant</p>
 							</div>
 						</div>
 					</div>
@@ -301,7 +452,41 @@
 			</section>
 
 			<!-- LOCAL SEARCH -->
-			<section data-auto-animate>
+			<section>
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search</h5>
+
+					<div data-id="hexagons-moves" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+
+					</div>
+
+					<div class="hexagons">
+						<div style="position: absolute; top: 2rem; left: 14rem;">
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: orangered;">Neighbor: a similar tour</p>
+							<p style="color: white;"></p>⇉ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
+						</div>
+					</div>
+				</section>
+
 				<section data-auto-animate>
 					<h5>Local Search</h5>
 					<div data-id="hexagons" class="hexagons">
@@ -1211,17 +1396,6 @@
 				<section data-auto-animate>
 					<h5>Neighborhoods ≡ Moves</h5>
 
-					<pre><code data-trim data-noescape class="language-rust">
-						struct Tour { /**/ } // sequence of locations: 0-2-1-4-3
-
-						struct Move { /**/ } // instruction to move to a particular neighbor
-
-						impl Move {
-							// takes the tour to the particular neighbor
-							fn apply(&self, tour: &mut Tour) { /**/ }
-						}
-					</code></pre>
-
 					<div data-id="hexagons-moves" class="hexagons">
 						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
 
@@ -1239,7 +1413,46 @@
 
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
-							<p style="color: orangered;">Neighbor</p>
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: orangered;">Neighbor: a similar tour</p>
+							<p style="color: white;"></p>⇉ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Neighborhoods ≡ Moves</h5>
+
+					<div data-id="hexagons-moves" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+
+						<span class="arrow-right"
+							style="position: absolute; top: 6rem; left: 6rem; rotate: 30deg;"></span>
+
+					</div>
+
+					<div class="hexagons">
+						<div style="position: absolute; top: 2rem; left: 14rem;">
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
+							<p class="italic">move city <span style="color:var(--blue)">5</span> to position <span
+									style="color:var(--blue)">1</span></p>
 						</div>
 					</div>
 				</section>
@@ -1273,15 +1486,23 @@
 
 						<span class="arrow-right"
 							style="position: absolute; top: 6rem; left: 6rem; rotate: 30deg;"></span>
+
 					</div>
 
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
-							<p style="color: orangered;">Neighbor</p>
-							<p style="color: var(--blue);">Move</p>
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
+							<p class="italic">move city <span style="color:var(--blue)">5</span> to position <span
+									style="color:var(--blue)">1</span></p>
 						</div>
 					</div>
+
 				</section>
+
 			</section>
 
 			<section>
@@ -1328,6 +1549,16 @@
 									/*fields*/
 								}
 							</code></pre>
+
+							<pre><code data-trim data-noescape class="language-rust">
+								// eg: a 4✕4 matrix
+								[
+									[0, 3, 2, 1],
+									[7, 0, 1, 5],
+									[2, 4, 0, 3],
+									[5, 1, 8, 0],
+								]
+							</code></pre>
 						</div>
 
 						<div>
@@ -1342,6 +1573,17 @@
 									// the corresponding location
 									
 									/*fields*/
+								}
+							</code></pre>
+
+							<pre><code data-trim data-noescape class="language-rust">
+								// eg: map of locations to available time slots
+								{
+									0 🡒 [{from: 10:00, to: 12:00}],
+									2 🡒 [
+										{from: 9:00, to: 10:00},
+										{from: 15:00, to: 17:00}
+									],
 								}
 							</code></pre>
 						</div>
@@ -1564,21 +1806,96 @@
 			<section>
 
 				<section>
-					<div>
-						<p style="text-decoration: underline;">composing criteria</p>
+					<p style="text-decoration: underline;">composing criteria</p>
 
-						<p>provided that we can solve:</p>
-						<ul>
-							<li>variant with criterion \(Duration \in C\), and</li>
-							<li>variant with criterion \(TimeWindows \in C\)</li>
-						</ul>
+					<p>provided that we can solve:</p>
+					<ul>
+						<li>variant with criterion <span class="math">Duration ⊆ C</span>, and</li>
+						<li>variant with criterion <span class="math">TimeWindows ⊆ C</span></li>
+					</ul>
 
-						<p>can we also solve</p>
-						<ul>
-							<li>for criteria \(X = \{{Duration, TimeWindows\}}\)?</li>
-						</ul>
+					<p>can we also solve</p>
+					<ul>
+						<li>for criteria <span class="math">{Duration, TimeWindows} ⊆ C</span>?</li>
+					</ul>
 
-					</div>
+				</section>
+
+				<section>
+					<p>yes, but ...</p>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Local Search - Duration & Time Windows</h5>
+
+					<pre><code data-trim data-noescape class="language-rust">
+						fn tour_cost_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour
+						) -> u64 {
+							let cost_duration = tour_cost_duration(input_duration, tour);
+							let cost_tw = tour_cost_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn moves_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+						) -> impl Iterator&lt;Item = (Move, u64)&gt; {
+							let moves_duration = moves_duration(input_duration, tour);
+							let moves_tw = moves_tw(input_tw, tour);
+							todo!()
+						}
+
+						fn best_move_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							tour: &Tour,
+							cost: u64,
+						) -> Option&lt;(Move, u64)&gt; {
+							let mut best_cost = cost;
+							let mut best_move = None;
+
+							for (mv, cost) in moves_duration_tw(input_duration, input_tw, tour) {
+								if cost < best_cost {
+									(best_cost, best_move) = (cost, Some(mv));
+								}
+							}
+
+							best_move
+						}
+
+						fn local_search_duration_tw(
+							input_duration: &DurationMatrix,
+							input_tw: &AvailableTimeSlots,
+							mut tour: Tour
+						) -> Tour {
+							let mut cost = tour_cost_duration_tw(input_duration, input_tw, &tour);
+
+							while let Some((mv, neighbor_cost)) =
+								best_move_duration_tw(input_duration, input_tw, &tour, cost)
+							{
+								mv.apply(&mut tour);
+								cost = neighbor_cost;
+							}
+							
+							tour
+						}
+					</code></pre>
+
+				</section>
+
+				<section>
+					<p>yes, but not nice</p>
+					<p>what if we have other use cases for</p>
+					<ul>
+						<li><span class="math">{Duration, Capacity}</span></li>
+						<li><span class="math">{Capacity, TimeWindows}</span></li>
+						<li><span class="math">{Duration, Capacity, TimeWindows}</span></li>
+						<li>...</li>
+					</ul>
 				</section>
 
 				<section data-auto-animate>
@@ -2101,6 +2418,40 @@
 							<li style="list-style-type: none;">
 								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
 							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="small-font">
+						<ul>
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
+							</li>
+
+							<br />
+							<li>
+								<code>ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;</code>
+							</li>
+							<li style="list-style-type: none;">
+								<code>=> ((DurationMatrix, AvailableTimeSlots), CapacityDeltas)</code>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C1. compose inputs</h5>
+
+					<div class="small-font">
+						<ul>
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> (DurationMatrix, AvailableTimeSlots)</code>
+							</li>
 
 							<br />
 							<li>
@@ -2116,11 +2467,6 @@
 							</li>
 							<li style="list-style-type: none;">
 								<code>=> (((X1::Input, X2::Input), X3::Input), X4::Input)</code>
-							</li>
-
-							<br />
-							<li>
-								...
 							</li>
 						</ul>
 					</div>
@@ -2186,7 +2532,7 @@
 
 					<div class="small-font">
 						<p>actually not that obvious, see <strong>multi-objective optimization</strong></p>
-						<p>but we stick to <strong>addition</strong> here</p>
+						<p>but we stick to <strong>additive costs</strong> here</p>
 					</div>
 				</section>
 
@@ -2196,6 +2542,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
 						}
 					</code></pre>
@@ -2207,6 +2554,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
 						}
 					</code></pre>
@@ -2214,6 +2562,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						impl Criterion for Duration {
 							type Input = DurationMatrix;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
 								tour_cost_duration(input, tour)
 							}
@@ -2221,6 +2570,7 @@
 
 						impl Criterion for TimeWindows {
 							type Input = AvailableTimeSlots;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
 								tour_cost_tw(input, tour)
 							}
@@ -2234,6 +2584,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
 						}
 					</code></pre>
@@ -2285,8 +2636,8 @@
 
 					<div class="small-font">
 						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
-						<p>some of these moves are feasible wrt <code>DurationMatrix</code></p>
-						<p>and some are feasible wrt <code>AvailableTimeSlots</code></p>
+						<p>some of these moves are feasible wrt <code>Duration</code></p>
+						<p>and some are feasible wrt <code>TimeWindows</code></p>
 						<p>⇊</p>
 						<p>composition is the <strong>intersection</strong> of the subsets</p>
 						<br />
@@ -2299,7 +2650,7 @@
 				<section data-auto-animate>
 					<h5>C3. compose moves</h5>
 					<div data-id="compose-hexagons">
-						<div class="hexagons">
+						<div data-id="compose-hexagons-1" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
 
 							<div class="hexagon darkgray" style="position: absolute; top: 5rem; left: 3.5rem;"></div>
@@ -2316,7 +2667,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-2" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
 
 							<div class="hexagon darkgray" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
@@ -2333,7 +2684,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-3" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
 								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
 
@@ -2356,7 +2707,7 @@
 				<section data-auto-animate>
 					<h5>C3. compose moves</h5>
 					<div data-id="compose-hexagons">
-						<div class="hexagons">
+						<div data-id="compose-hexagons-1" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
 
 							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
@@ -2373,7 +2724,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-2" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
 
 							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
@@ -2390,7 +2741,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-3" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
 								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
 
@@ -2413,7 +2764,7 @@
 				<section data-auto-animate>
 					<h5>C3. compose moves</h5>
 					<div data-id="compose-hexagons">
-						<div class="hexagons">
+						<div data-id="compose-hexagons-1" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
 
 							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
@@ -2430,7 +2781,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-2" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
 
 							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
@@ -2447,7 +2798,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-3" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
 								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
 
@@ -2470,7 +2821,7 @@
 				<section data-auto-animate>
 					<h5>C3. compose moves</h5>
 					<div data-id="compose-hexagons">
-						<div class="hexagons">
+						<div data-id="compose-hexagons-1" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
 
 							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
@@ -2487,7 +2838,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-2" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
 
 							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
@@ -2504,7 +2855,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-3" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
 								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
 
@@ -2527,7 +2878,7 @@
 				<section data-auto-animate>
 					<h5>C3. compose moves</h5>
 					<div data-id="compose-hexagons">
-						<div class="hexagons">
+						<div data-id="compose-hexagons-1" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
 
 							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
@@ -2544,7 +2895,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-2" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
 
 							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
@@ -2562,7 +2913,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-3" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
 								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
 
@@ -2585,7 +2936,7 @@
 				<section data-auto-animate>
 					<h5>C3. compose moves</h5>
 					<div data-id="compose-hexagons">
-						<div class="hexagons">
+						<div data-id="compose-hexagons-1" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
 
 							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
@@ -2602,7 +2953,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-2" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
 
 							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
@@ -2620,7 +2971,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-3" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
 								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
 
@@ -2643,7 +2994,7 @@
 				<section data-auto-animate>
 					<h5>C3. compose moves</h5>
 					<div data-id="compose-hexagons">
-						<div class="hexagons">
+						<div data-id="compose-hexagons-1" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
 
 							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
@@ -2660,7 +3011,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-2" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
 
 							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
@@ -2678,7 +3029,7 @@
 
 						</div>
 
-						<div class="hexagons">
+						<div data-id="compose-hexagons-3" class="hexagons">
 							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
 								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
 
@@ -2757,7 +3108,9 @@ where
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							
 							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
 						}
 					</code></pre>
@@ -2769,7 +3122,9 @@ where
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							
 							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
 						}
 					</code></pre>
@@ -2796,7 +3151,9 @@ where
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							
 							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
 						}
 					</code></pre>
@@ -2823,7 +3180,9 @@ where
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
+							
 							fn moves(input: &Self::Input, tour: &Tour) -> impl Iterator&lt;Item = (Move, u64)&gt;;
 						}
 					</code></pre>
@@ -2873,6 +3232,68 @@ where
 							<li style="list-style-type: none;">
 								<code>=> DurationMoves</code>
 							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>SIM&lt;A, B&gt; := SortedIntersectingMoves&lt;A, B&gt;</code></p>
+						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMoves</code>
+							</li>
+
+							<br />
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> SIM&lt;DurationMoves, TwMoves&gt;</code>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>SIM&lt;A, B&gt; := SortedIntersectingMoves&lt;A, B&gt;</code></p>
+						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMoves</code>
+							</li>
+
+							<br />
+							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
+							<li style="list-style-type: none;">
+								<code>=> SIM&lt;DurationMoves, TwMoves&gt;</code>
+							</li>
+
+							<br />
+							<li>
+								<code>ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;</code>
+							</li>
+							<li style="list-style-type: none;">
+								<code>=> SIM&lt;SIM&lt;DurationMoves, TwMoves&gt;, CapacityMoves&gt;</code>
+							</li>
+						</ul>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+
+					<div class="small-font">
+						<p><code>SIM&lt;A, B&gt; := SortedIntersectingMoves&lt;A, B&gt;</code></p>
+						<ul>
+							<li><code>Duration</code></li>
+							<li style="list-style-type: none;">
+								<code>=> DurationMoves</code>
+							</li>
 
 							<br />
 							<li><code>ComposedCriteria&lt;Duration, TimeWindows&gt;</code></li>
@@ -2894,11 +3315,6 @@ where
 							</li>
 							<li style="list-style-type: none;">
 								<code>=> SIM&lt;SIM&lt;SIM&lt;X1::Moves, X2::Moves&gt;, X3::Moves&gt;, X4::Moves&gt;</code>
-							</li>
-
-							<br />
-							<li>
-								...
 							</li>
 						</ul>
 					</div>
@@ -2925,7 +3341,8 @@ where
 
 							for (mv, cost) in X::moves(input, tour) {
 								if cost < best_cost {
-									(best_cost, best_move) = (cost, Some(mv));
+									best_cost = cost;
+									best_move = Some(mv);
 								}
 							}
 
@@ -2938,12 +3355,13 @@ where
 					<h5>Generic Local Search</h5>
 
 					<pre><code data-trim data-noescape class="language-rust" style="max-height: none;">
-						fn local_search&lt;X&gt;(initial_tour: Tour) -> Tour
+						fn local_search&lt;X&gt;(input: &X::Input, initial_tour: Tour) -> Tour
 							where X: Criterion
 						{
-							let mut best_cost = cost;
+							let mut tour = initial_tour;
+							let mut best_cost = X::tour_cost(input, &tour);
 							
-							while let Some((mv, cost)) = best_move::&lt;X&gt;(&tour, best_cost) {
+							while let Some((mv, cost)) = best_move::&lt;X&gt;(input, &tour, best_cost) {
 								mv.apply(&mut tour);
 								best_cost = cost;
 							}
@@ -3106,9 +3524,8 @@ where
 
 						<br />
 						<p>implementing the 6th criterion, increases this number to 63</p>
-						<p>7th criterion, increases this number to 127</p>
 						<p>⇊</p>
-						<p>makes it well-worth to add features</p>
+						<p>makes it well-worth the effort to add new features</p>
 					</div>
 				</section>
 
@@ -3122,7 +3539,7 @@ where
 				</section>
 
 				<section data-auto-animate>
-					<h5>Ergonomics: The Problem</h5>
+					<h5>The Problem</h5>
 
 					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-7,14">
 						type X = ComposedCriteria&lt;
@@ -3146,9 +3563,9 @@ where
 				</section>
 
 				<section data-auto-animate>
-					<h5>Ergonomics: The Solution</h5>
+					<h5>The Solution</h5>
 
-					<pre><code data-trim data-noescape class="language-rust">
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|10-12">
 						struct LocalSolver&lt;X: Criterion&gt; {
 							input: X::Input,
 						}
@@ -3170,7 +3587,7 @@ where
 				</section>
 
 				<section data-auto-animate>
-					<h5>Ergonomics: The Solution</h5>
+					<h5>The Result</h5>
 
 					<pre><code data-trim data-noescape class="language-rust">
 						let input_duration: DurationMatrix = ...;
@@ -3196,39 +3613,66 @@ where
 
 			<section>
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
+					<h5>❤️🦀</h5>
 				</section>
 
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
+					<h5>❤️🦀</h5>
 
-					<div class="small-font" style="list-style-type: none;">
-						<li>performance</li>
-						<li>defaults</li>
-						<li>memory safety</li>
-						<li>error handling</li>
-						<li>tooling</li>
-						<li>...</li>
+					<div data-id="features" class="hexagons">
+						<div class="card"
+							style="border-color: white; color: white; position: absolute; top: 0rem; left: 3.5rem;">
+							performance</div>
+						<div class="card"
+							style="border-color: var(--blue); color: var(--blue); position: absolute; top: 5rem; left: 0rem;">
+							great
+							defaults</div>
+						<div class="card"
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							memory safety</div>
+						<div class="card"
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
+							error
+							handling</div>
+						<div class="card"
+							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							tooling</div>
 					</div>
+
 				</section>
 
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
+					<h5>❤️🦀</h5>
 
-					<div class="small-font" style="list-style-type: none;">
-						<li>performance</li>
-						<li>defaults</li>
-						<li>memory safety</li>
-						<li>error handling</li>
-						<li>tooling</li>
-						<li>...</li>
-						<li style="color:orangered;">type system</li>
+					<div data-id="features" class="hexagons">
+						<div class="card"
+							style="border-color: white; color: white; position: absolute; top: 0rem; left: 3.5rem;">
+							performance</div>
+						<div class="card"
+							style="border-color: var(--blue); color: var(--blue); position: absolute; top: 5rem; left: 0rem;">
+							great
+							defaults</div>
+						<div class="card"
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							memory safety</div>
+						<div class="card"
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
+							error
+							handling</div>
+						<div class="card"
+							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							tooling</div>
+
+						<div class="card focused-border"
+							style="border-color: green; color: green; position: absolute; top: 16rem; left: 4rem; width: 20rem;">
+							type system
+						</div>
 					</div>
+
 				</section>
 
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
-
+					<h5>❤️🦀</h5>
 					<p>Thank you!</p>
 				</section>
 			</section>
