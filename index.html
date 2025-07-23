@@ -21,7 +21,7 @@
 <body>
 	<div class="reveal">
 		<div class="slides">
-			<section data-auto-animate>
+			<section>
 				<div class="boxes">
 					<div class="box no-border">composing</div>
 					<div class="box no-border">zero cost</div>
@@ -1396,17 +1396,6 @@
 				<section data-auto-animate>
 					<h5>Neighborhoods ≡ Moves</h5>
 
-					<pre><code data-trim data-noescape class="language-rust">
-						struct Tour { /**/ } // sequence of locations: 0-2-1-4-3
-
-						struct Move { /**/ } // instruction to move to a particular neighbor
-
-						impl Move {
-							// takes the tour to the particular neighbor
-							fn apply(&self, tour: &mut Tour) { /**/ }
-						}
-					</code></pre>
-
 					<div data-id="hexagons-moves" class="hexagons">
 						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
 
@@ -1424,7 +1413,46 @@
 
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
-							<p style="color: orangered;">Neighbor</p>
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: orangered;">Neighbor: a similar tour</p>
+							<p style="color: white;"></p>⇉ 0-<span style="color:orangered">5</span>-2-3-4-1</p>
+						</div>
+					</div>
+				</section>
+
+				<section data-auto-animate>
+					<h5>Neighborhoods ≡ Moves</h5>
+
+					<div data-id="hexagons-moves" class="hexagons">
+						<div class="hexagon darkgray" style="position: absolute; top: 0rem; left: 3.5rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 0rem;"></div>
+						<div class="hexagon darkgray" style="position: absolute; top: 2rem; left: 7rem;"></div>
+
+						<div class="hexagon white" style="position: absolute; top: 4rem; left: 3.5rem;">20</div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 6rem; left: 0rem;"></div>
+						<div class="hexagon orangered" style="position: absolute; top: 6rem; left: 7rem;"></div>
+
+						<div class="hexagon darkgray" style="position: absolute; top: 8rem; left: 3.5rem;"></div>
+
+						<span class="arrow-right"
+							style="position: absolute; top: 6rem; left: 6rem; rotate: 30deg;"></span>
+
+					</div>
+
+					<div class="hexagons">
+						<div style="position: absolute; top: 2rem; left: 14rem;">
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
+							<p class="italic">move city <span style="color:var(--blue)">5</span> to position <span
+									style="color:var(--blue)">1</span></p>
 						</div>
 					</div>
 				</section>
@@ -1458,15 +1486,23 @@
 
 						<span class="arrow-right"
 							style="position: absolute; top: 6rem; left: 6rem; rotate: 30deg;"></span>
+
 					</div>
 
 					<div class="hexagons">
 						<div style="position: absolute; top: 2rem; left: 14rem;">
-							<p style="color: orangered;">Neighbor</p>
-							<p style="color: var(--blue);">Move</p>
+							<p style="color: white;">Solution: a tour</p>
+							<p style="color: white;"></p>⇉ 0-1-2-3-4-5</p>
+
+							<br />
+							<p style="color: var(--blue);">Move: instructions to create a neighbor</p>
+							<p class="italic">move city <span style="color:var(--blue)">5</span> to position <span
+									style="color:var(--blue)">1</span></p>
 						</div>
 					</div>
+
 				</section>
+
 			</section>
 
 			<section>
