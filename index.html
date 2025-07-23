@@ -3651,7 +3651,7 @@ where
 				<section data-auto-animate>
 					<h5>The Problem</h5>
 
-					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-7,14">
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-7|14">
 						type X = ComposedCriteria&lt;
 							ComposedCriteria&lt;
 								ComposedCriteria&lt;ComposedCriteria&lt;Duration, TimeWindows&gt;, Capacity&gt;,
@@ -3675,7 +3675,7 @@ where
 				<section data-auto-animate>
 					<h5>The Solution</h5>
 
-					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|10-12">
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-3|6-8|10-12|14-16">
 						struct LocalSolver&lt;X: Criterion&gt; {
 							input: X::Input,
 						}
@@ -3685,12 +3685,12 @@ where
 								Self { input }
 							}
 
-							fn and_with<Y: Criterion>(self, input: Y::Input) -> LocalSolver&lt;ComposedCriteria&lt;X, Y&gt;&gt; {
-								LocalSolver::new((self.input, input))
+							fn run(&self, tour: Tour) -> Tour {
+								local_search::&lt;X&gt;(&self.input, tour)
 							}
 
-							fn run(&self, mut tour: Tour) -> Tour {
-								local_search::&lt;X&gt;(&self.input, tour)
+							fn and_with&lt;Y: Criterion&gt;(self, input: Y::Input) -> LocalSolver&lt;ComposedCriteria&lt;X, Y&gt;&gt; {
+								LocalSolver::new((self.input, input))
 							}
 						}
 					</code></pre>
@@ -3738,14 +3738,13 @@ where
 							great
 							defaults</div>
 						<div class="card"
-							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 14rem;">
 							memory safety</div>
 						<div class="card"
-							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
-							error
-							handling</div>
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 4rem;">
+							error handling</div>
 						<div class="card"
-							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							style="border-color: red; color: red; position: absolute; top: 6.5rem; left: 18rem;">
 							tooling</div>
 					</div>
 
@@ -3763,18 +3762,16 @@ where
 							great
 							defaults</div>
 						<div class="card"
-							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 14rem;">
 							memory safety</div>
 						<div class="card"
-							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
-							error
-							handling</div>
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 4rem;">
+							error handling</div>
 						<div class="card"
-							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							style="border-color: red; color: red; position: absolute; top: 6.5rem; left: 18rem;">
 							tooling</div>
 
-						<div class="card focused-border"
-							style="border-color: green; color: green; position: absolute; top: 16rem; left: 4rem; width: 20rem;">
+						<div class="green-card" style="position: absolute; top: 13rem; left: 14rem;">
 							type system
 						</div>
 					</div>
