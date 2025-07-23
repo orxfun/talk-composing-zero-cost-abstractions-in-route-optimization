@@ -1549,6 +1549,16 @@
 									/*fields*/
 								}
 							</code></pre>
+
+							<pre><code data-trim data-noescape class="language-rust">
+								// eg: a 4✕4 matrix
+								[
+									[0, 3, 2, 1],
+									[7, 0, 1, 5],
+									[2, 4, 0, 3],
+									[5, 1, 8, 0],
+								]
+							</code></pre>
 						</div>
 
 						<div>
@@ -1563,6 +1573,17 @@
 									// the corresponding location
 									
 									/*fields*/
+								}
+							</code></pre>
+
+							<pre><code data-trim data-noescape class="language-rust">
+								// eg: map of locations to available time slots
+								{
+									0 🡒 [{from: 10:00, to: 12:00}],
+									2 🡒 [
+										{from: 9:00, to: 10:00},
+										{from: 15:00, to: 17:00}
+									],
 								}
 							</code></pre>
 						</div>
