@@ -2532,7 +2532,7 @@
 
 					<div class="small-font">
 						<p>actually not that obvious, see <strong>multi-objective optimization</strong></p>
-						<p>but we stick to <strong>addition</strong> here</p>
+						<p>but we stick to <strong>additive costs</strong> here</p>
 					</div>
 				</section>
 
@@ -2542,6 +2542,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
 						}
 					</code></pre>
@@ -2553,6 +2554,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
 						}
 					</code></pre>
@@ -2560,6 +2562,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						impl Criterion for Duration {
 							type Input = DurationMatrix;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
 								tour_cost_duration(input, tour)
 							}
@@ -2567,6 +2570,7 @@
 
 						impl Criterion for TimeWindows {
 							type Input = AvailableTimeSlots;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64 {
 								tour_cost_tw(input, tour)
 							}
@@ -2580,6 +2584,7 @@
 					<pre><code data-trim data-noescape class="language-rust">
 						trait Criterion {
 							type Input;
+
 							fn tour_cost(input: &Self::Input, tour: &Tour) -> u64;
 						}
 					</code></pre>
@@ -2631,8 +2636,8 @@
 
 					<div class="small-font">
 						<p><code>tour</code> has a fixed neighborhood that can be represented as a set of moves</p>
-						<p>some of these moves are feasible wrt <code>DurationMatrix</code></p>
-						<p>and some are feasible wrt <code>AvailableTimeSlots</code></p>
+						<p>some of these moves are feasible wrt <code>Duration</code></p>
+						<p>and some are feasible wrt <code>TimeWindows</code></p>
 						<p>⇊</p>
 						<p>composition is the <strong>intersection</strong> of the subsets</p>
 						<br />
@@ -3041,6 +3046,72 @@
 							<div class="hexagon red" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
 
 						</div>
+					</div>
+				</section>
+
+
+				<section data-auto-animate>
+					<h5>C3. compose moves</h5>
+					<div data-id="compose-hexagons">
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 3.5rem;">Duration</p>
+
+							<div class="hexagon orangered" style="position: absolute; top: 5rem; left: 3.5rem;">15</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 0rem;">19</div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 7rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 3.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 0rem;">21</div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 7rem;">16</div>
+
+							<div class="hexagon red" style="position: absolute; top: 13rem; left: 3.5rem;"></div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 0rem; left: 21.5rem;">TimeWindows</p>
+
+							<div class="hexagon red" style="position: absolute; top: 5rem; left: 23.5rem;"></div>
+
+							<div class="hexagon red" style="position: absolute; top: 7rem; left: 20rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 7rem; left: 27rem;">0</div>
+
+							<div class="hexagon white" style="position: absolute; top: 9rem; left: 23.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 20rem;">1</div>
+							<div class="hexagon orangered" style="position: absolute; top: 11rem; left: 27rem;">5</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 13rem; left: 23.5rem;">9
+							</div>
+
+						</div>
+
+						<div class="hexagons">
+							<p class="small-font" style="position: absolute; top: 17rem; left: 2rem;">
+								ComposedCriteria&lt;Duration, TimeWindows&gt;</p>
+
+							<div class="hexagon red" style="position: absolute; top: 21rem; left: 12.5rem;"></div>
+
+							<div class="hexagon red" style="position: absolute; top: 23rem; left: 9rem;"></div>
+							<div class="hexagon orangered" style="position: absolute; top: 23rem; left: 16rem;">18</div>
+
+							<div class="hexagon white" style="position: absolute; top: 25rem; left: 12.5rem;">20</div>
+
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 9rem;">22</div>
+							<div class="hexagon orangered" style="position: absolute; top: 27rem; left: 16rem;">21</div>
+
+							<div class="hexagon red" style="position: absolute; top: 29rem; left: 12.5rem;"></div>
+
+						</div>
+					</div>
+
+					<div class="hexagons">
+						<p
+							style="position: absolute; top: 24rem; left: -1rem; rotate:-30deg; color:green; border: 1px solid green; border-radius: 0.3rem; padding:1rem">
+							<code>Iterator</code>
+						</p>
 					</div>
 				</section>
 
