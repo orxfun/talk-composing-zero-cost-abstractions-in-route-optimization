@@ -44,6 +44,11 @@ img {
     object-fit: contain;
 }
 
+.math {
+    font-weight: bold;
+    color: #ffff99;
+}
+
 /* shapes */
 
 .hexagon {
