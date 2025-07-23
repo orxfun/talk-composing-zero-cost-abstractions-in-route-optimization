@@ -49,6 +49,12 @@ img {
     color: #ffff99;
 }
 
+.card {
+    border: 1px solid white;
+    border-radius: 0.3rem;
+    padding: 1rem;
+}
+
 /* shapes */
 
 .hexagon {

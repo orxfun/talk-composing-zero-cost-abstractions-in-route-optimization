@@ -3341,7 +3341,8 @@ where
 
 							for (mv, cost) in X::moves(input, tour) {
 								if cost < best_cost {
-									(best_cost, best_move) = (cost, Some(mv));
+									best_cost = cost;
+									best_move = Some(mv);
 								}
 							}
 
@@ -3354,12 +3355,13 @@ where
 					<h5>Generic Local Search</h5>
 
 					<pre><code data-trim data-noescape class="language-rust" style="max-height: none;">
-						fn local_search&lt;X&gt;(initial_tour: Tour) -> Tour
+						fn local_search&lt;X&gt;(input: &X::Input, initial_tour: Tour) -> Tour
 							where X: Criterion
 						{
-							let mut best_cost = cost;
+							let mut tour = initial_tour;
+							let mut best_cost = X::tour_cost(input, &tour);
 							
-							while let Some((mv, cost)) = best_move::&lt;X&gt;(&tour, best_cost) {
+							while let Some((mv, cost)) = best_move::&lt;X&gt;(input, &tour, best_cost) {
 								mv.apply(&mut tour);
 								best_cost = cost;
 							}
@@ -3522,9 +3524,8 @@ where
 
 						<br />
 						<p>implementing the 6th criterion, increases this number to 63</p>
-						<p>7th criterion, increases this number to 127</p>
 						<p>⇊</p>
-						<p>makes it well-worth to add features</p>
+						<p>makes it well-worth the effort to add new features</p>
 					</div>
 				</section>
 
@@ -3538,7 +3539,7 @@ where
 				</section>
 
 				<section data-auto-animate>
-					<h5>Ergonomics: The Problem</h5>
+					<h5>The Problem</h5>
 
 					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|1-7,14">
 						type X = ComposedCriteria&lt;
@@ -3562,9 +3563,9 @@ where
 				</section>
 
 				<section data-auto-animate>
-					<h5>Ergonomics: The Solution</h5>
+					<h5>The Solution</h5>
 
-					<pre><code data-trim data-noescape class="language-rust">
+					<pre><code data-trim data-noescape class="language-rust" data-line-numbers="|10-12">
 						struct LocalSolver&lt;X: Criterion&gt; {
 							input: X::Input,
 						}
@@ -3586,7 +3587,7 @@ where
 				</section>
 
 				<section data-auto-animate>
-					<h5>Ergonomics: The Solution</h5>
+					<h5>The Result</h5>
 
 					<pre><code data-trim data-noescape class="language-rust">
 						let input_duration: DurationMatrix = ...;
@@ -3612,39 +3613,66 @@ where
 
 			<section>
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
+					<h5>❤️🦀</h5>
 				</section>
 
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
+					<h5>❤️🦀</h5>
 
-					<div class="small-font" style="list-style-type: none;">
-						<li>performance</li>
-						<li>defaults</li>
-						<li>memory safety</li>
-						<li>error handling</li>
-						<li>tooling</li>
-						<li>...</li>
+					<div data-id="features" class="hexagons">
+						<div class="card"
+							style="border-color: white; color: white; position: absolute; top: 0rem; left: 3.5rem;">
+							performance</div>
+						<div class="card"
+							style="border-color: var(--blue); color: var(--blue); position: absolute; top: 5rem; left: 0rem;">
+							great
+							defaults</div>
+						<div class="card"
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							memory safety</div>
+						<div class="card"
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
+							error
+							handling</div>
+						<div class="card"
+							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							tooling</div>
 					</div>
+
 				</section>
 
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
+					<h5>❤️🦀</h5>
 
-					<div class="small-font" style="list-style-type: none;">
-						<li>performance</li>
-						<li>defaults</li>
-						<li>memory safety</li>
-						<li>error handling</li>
-						<li>tooling</li>
-						<li>...</li>
-						<li style="color:orangered;">type system</li>
+					<div data-id="features" class="hexagons">
+						<div class="card"
+							style="border-color: white; color: white; position: absolute; top: 0rem; left: 3.5rem;">
+							performance</div>
+						<div class="card"
+							style="border-color: var(--blue); color: var(--blue); position: absolute; top: 5rem; left: 0rem;">
+							great
+							defaults</div>
+						<div class="card"
+							style="border-color: orangered; color: orangered; position: absolute; top: 3rem; left: 16rem;">
+							memory safety</div>
+						<div class="card"
+							style="border-color: yellow; color: yellow; position: absolute; top: 10rem; left: 6rem;">
+							error
+							handling</div>
+						<div class="card"
+							style="border-color: red; color: red; position: absolute; top: 8rem; left: 18rem;">
+							tooling</div>
+
+						<div class="card focused-border"
+							style="border-color: green; color: green; position: absolute; top: 16rem; left: 4rem; width: 20rem;">
+							type system
+						</div>
 					</div>
+
 				</section>
 
 				<section data-auto-animate>
-					<h5><span style="color:red;">♡</span> rust</h5>
-
+					<h5>❤️🦀</h5>
 					<p>Thank you!</p>
 				</section>
 			</section>
